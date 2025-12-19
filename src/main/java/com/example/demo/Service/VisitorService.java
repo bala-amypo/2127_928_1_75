@@ -12,20 +12,16 @@ public class VisitorService {
 
     private final VisitorRepository visitorRepository;
 
-    // ✅ Constructor Injection (MANDATORY)
     public VisitorService(VisitorRepository visitorRepository) {
         this.visitorRepository = visitorRepository;
     }
 
-    // ✅ Create Visitor
     public VisitorEntity createVisitor(VisitorEntity visitor) {
 
-        // 🔴 phone required
         if (visitor.getPhone() == null || visitor.getPhone().isEmpty()) {
             throw new BadRequestException("Phone required");
         }
 
-        // 🔴 idProof required
         if (visitor.getIdProof() == null || visitor.getIdProof().isEmpty()) {
             throw new BadRequestException("Id proof required");
         }
@@ -33,19 +29,16 @@ public class VisitorService {
         return visitorRepository.save(visitor);
     }
 
-    // ✅ Get all visitors
     public List<VisitorEntity> getAllVisitors() {
         return visitorRepository.findAll();
     }
 
-    // ✅ Get visitor by ID
     public VisitorEntity getVisitorById(Long id) {
         return visitorRepository.findById(id)
                 .orElseThrow(() ->
                         new BadRequestException("Visitor not found"));
     }
 
-    // ✅ Delete visitor
     public void deleteVisitor(Long id) {
         if (!visitorRepository.existsById(id)) {
             throw new BadRequestException("Visitor not found");

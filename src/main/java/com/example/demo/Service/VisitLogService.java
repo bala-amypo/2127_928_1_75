@@ -39,12 +39,10 @@ public class VisitLogService {
         return visitLogRepository.save(visitLog);
     }
 
-    // ✅ Get all visit logs
     public List<VisitLogEntity> getAllVisitLogs() {
         return visitLogRepository.findAll();
     }
 
-    // ✅ Get visit logs by visitor
     public List<VisitLogEntity> getLogsByVisitorId(Long visitorId) {
         return visitLogRepository.findByVisitorId(visitorId);
     }
