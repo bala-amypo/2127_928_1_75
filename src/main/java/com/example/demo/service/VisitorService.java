@@ -1,48 +1,35 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.VisitorEntity;
-import com.example.demo.exception.BadRequestException;
-import com.example.demo.repository.VisitorRepository;
+import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class VisitorService {
 
-    private final VisitorRepository visitorRepository;
+    private final Map<Long, String> visitors = new HashMap<>();
+    private long counter = 1;
 
-    public VisitorService(VisitorRepository visitorRepository) {
-        this.visitorRepository = visitorRepository;
+    public Long addVisitor(String name) {
+        long id = counter++;
+        visitors.put(id, name);
+        return id;
     }
 
-    public VisitorEntity createVisitor(VisitorEntity visitor) {
-
-        if (visitor.getPhone() == null || visitor.getPhone().isEmpty()) {
-            throw new BadRequestException("Phone required");
-        }
-
-        if (visitor.getIdProof() == null || visitor.getIdProof().isEmpty()) {
-            throw new BadRequestException("Id proof required");
-        }
-
-        return visitorRepository.save(visitor);
+    public String getVisitor(Long id) {
+        if (!visitors.containsKey(id)) throw new ResourceNotFoundException("Visitor not found: " + id);
+        return visitors.get(id);
     }
 
-    public List<VisitorEntity> getAllVisitors() {
-        return visitorRepository.findAll();
-    }
-
-    public VisitorEntity getVisitorById(Long id) {
-        return visitorRepository.findById(id)
-                .orElseThrow(() ->
-                        new BadRequestException("Visitor not found"));
+    public void updateVisitor(Long id, String name) {
+        if (!visitors.containsKey(id)) throw new ResourceNotFoundException("Visitor not found: " + id);
+        visitors.put(id, name);
     }
 
     public void deleteVisitor(Long id) {
-        if (!visitorRepository.existsById(id)) {
-            throw new BadRequestException("Visitor not found");
-        }
-        visitorRepository.deleteById(id);
+        if (!visitors.containsKey(id)) throw new ResourceNotFoundException("Visitor not found: " + id);
+        visitors.remove(id);
     }
 }

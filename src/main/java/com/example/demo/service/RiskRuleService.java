@@ -13,7 +13,6 @@ public class RiskRuleService {
     private final Map<String, String> riskRules = new HashMap<>();
 
     public RiskRuleService() {
-        // Sample initial rules
         riskRules.put("visitorWithoutPass", RiskLevelUtils.HIGH);
         riskRules.put("unknownVisitor", RiskLevelUtils.CRITICAL);
     }

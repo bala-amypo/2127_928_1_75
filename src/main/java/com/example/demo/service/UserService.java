@@ -19,24 +19,17 @@ public class UserService {
     }
 
     public String getUser(Long id) {
-        String user = users.get(id);
-        if (user == null) {
-            throw new ResourceNotFoundException("User not found: " + id);
-        }
-        return user;
+        if (!users.containsKey(id)) throw new ResourceNotFoundException("User not found: " + id);
+        return users.get(id);
     }
 
     public void updateUser(Long id, String username) {
-        if (!users.containsKey(id)) {
-            throw new ResourceNotFoundException("User not found: " + id);
-        }
+        if (!users.containsKey(id)) throw new ResourceNotFoundException("User not found: " + id);
         users.put(id, username);
     }
 
     public void deleteUser(Long id) {
-        if (!users.containsKey(id)) {
-            throw new ResourceNotFoundException("User not found: " + id);
-        }
+        if (!users.containsKey(id)) throw new ResourceNotFoundException("User not found: " + id);
         users.remove(id);
     }
 }
