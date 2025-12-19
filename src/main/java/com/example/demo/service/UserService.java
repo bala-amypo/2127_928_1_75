@@ -1,54 +1,42 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.UserEntity;
-import com.example.demo.exception.BadRequestException;
-import com.example.demo.repository.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final Map<Long, String> users = new HashMap<>();
+    private long counter = 1;
 
-    public UserService(UserRepository userRepository,
-                       PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+    public Long addUser(String username) {
+        long id = counter++;
+        users.put(id, username);
+        return id;
     }
 
-    public UserEntity register(UserEntity user) {
-        if (user.getEmail() != null &&
-                userRepository.existsByEmail(user.getEmail())) {
-            throw new BadRequestException("Email already exists");
+    public String getUser(Long id) {
+        String user = users.get(id);
+        if (user == null) {
+            throw new ResourceNotFoundException("User not found: " + id);
         }
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        return user;
     }
 
-    public List<UserEntity> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    public UserEntity getUserById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() ->
-                        new BadRequestException("User not found"));
-    }
-
-    public Optional<UserEntity> getByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public void updateUser(Long id, String username) {
+        if (!users.containsKey(id)) {
+            throw new ResourceNotFoundException("User not found: " + id);
+        }
+        users.put(id, username);
     }
 
     public void deleteUser(Long id) {
-        if (!userRepository.existsById(id)) {
-            throw new BadRequestException("User not found");
+        if (!users.containsKey(id)) {
+            throw new ResourceNotFoundException("User not found: " + id);
         }
-        userRepository.deleteById(id);
+        users.remove(id);
     }
 }

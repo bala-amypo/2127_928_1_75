@@ -1,54 +1,38 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.RiskRuleEntity;
-import com.example.demo.exception.BadRequestException;
-import com.example.demo.repository.RiskRuleRepository;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.util.RiskLevelUtils;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class RiskRuleService {
 
-    private final RiskRuleRepository riskRuleRepository;
+    private final Map<String, String> riskRules = new HashMap<>();
 
-    public RiskRuleService(RiskRuleRepository riskRuleRepository) {
-        this.riskRuleRepository = riskRuleRepository;
+    public RiskRuleService() {
+        // Sample initial rules
+        riskRules.put("visitorWithoutPass", RiskLevelUtils.HIGH);
+        riskRules.put("unknownVisitor", RiskLevelUtils.CRITICAL);
     }
 
-    public RiskRuleEntity createRule(RiskRuleEntity rule) {
-
-        if (riskRuleRepository.existsByRuleName(rule.getRuleName())) {
-            throw new BadRequestException("Rule name must be unique");
+    public String getRiskLevel(String ruleKey) {
+        if (!riskRules.containsKey(ruleKey)) {
+            throw new ResourceNotFoundException("Risk rule not found: " + ruleKey);
         }
-
-        if (rule.getThreshold() < 0) {
-            throw new BadRequestException("Threshold must be non-negative");
-        }
-
-        if (rule.getScoreImpact() < 0) {
-            throw new BadRequestException("Score impact must be non-negative");
-        }
-
-        rule.setCreatedAt(LocalDateTime.now());
-        return riskRuleRepository.save(rule);
+        return riskRules.get(ruleKey);
     }
 
-    public List<RiskRuleEntity> getAllRules() {
-        return riskRuleRepository.findAll();
+    public void saveOrUpdateRule(String ruleKey, String riskLevel) {
+        riskRules.put(ruleKey, riskLevel);
     }
 
-    public RiskRuleEntity getRuleById(Long id) {
-        return riskRuleRepository.findById(id)
-                .orElseThrow(() ->
-                        new BadRequestException("Rule not found"));
-    }
-
-    public void deleteRule(Long id) {
-        if (!riskRuleRepository.existsById(id)) {
-            throw new BadRequestException("Rule not found");
+    public void deleteRule(String ruleKey) {
+        if (!riskRules.containsKey(ruleKey)) {
+            throw new ResourceNotFoundException("Cannot delete. Rule not found: " + ruleKey);
         }
-        riskRuleRepository.deleteById(id);
+        riskRules.remove(ruleKey);
     }
 }
