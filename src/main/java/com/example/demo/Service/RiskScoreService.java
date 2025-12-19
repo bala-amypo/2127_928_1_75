@@ -16,7 +16,6 @@ public class RiskScoreService {
     private final RiskScoreRepository riskScoreRepository;
     private final ScoreAuditLogRepository scoreAuditLogRepository;
 
-    // ✅ Constructor Injection (MANDATORY)
     public RiskScoreService(RiskRuleRepository riskRuleRepository,
                             RiskScoreRepository riskScoreRepository,
                             ScoreAuditLogRepository scoreAuditLogRepository) {
@@ -25,7 +24,6 @@ public class RiskScoreService {
         this.scoreAuditLogRepository = scoreAuditLogRepository;
     }
 
-    // ✅ Evaluate visitor against all active rules
     public RiskScoreEntity evaluateVisitor(VisitorEntity visitor) {
 
         if (visitor == null) {
@@ -42,7 +40,6 @@ public class RiskScoreService {
             if (ruleApplied) {
                 totalScore += rule.getScoreImpact();
 
-                // ✅ Save audit log
                 ScoreAuditLogEntity audit = ScoreAuditLogEntity.builder()
                         .visitor(visitor)
                         .appliedRule(rule)
@@ -54,7 +51,6 @@ public class RiskScoreService {
             }
         }
 
-        // ✅ Derive risk level
         String riskLevel = RiskLevelUtils.fromScore(totalScore);
 
         RiskScoreEntity riskScore = RiskScoreEntity.builder()
@@ -67,7 +63,6 @@ public class RiskScoreService {
         return riskScoreRepository.save(riskScore);
     }
 
-    // ✅ Rule evaluation logic
     private boolean applyRule(RiskRuleEntity rule, VisitorEntity visitor) {
 
         switch (rule.getRuleType()) {

@@ -13,25 +13,20 @@ public class RiskRuleService {
 
     private final RiskRuleRepository riskRuleRepository;
 
-    // ✅ Constructor Injection (MANDATORY)
     public RiskRuleService(RiskRuleRepository riskRuleRepository) {
         this.riskRuleRepository = riskRuleRepository;
     }
 
-    // ✅ Create Risk Rule
     public RiskRuleEntity createRule(RiskRuleEntity rule) {
 
-        // 🔴 Rule name must be unique
         if (riskRuleRepository.existsByRuleName(rule.getRuleName())) {
             throw new BadRequestException("Rule name must be unique");
         }
 
-        // 🔴 threshold >= 0
         if (rule.getThreshold() < 0) {
             throw new BadRequestException("Threshold must be non-negative");
         }
 
-        // 🔴 scoreImpact >= 0
         if (rule.getScoreImpact() < 0) {
             throw new BadRequestException("Score impact must be non-negative");
         }
@@ -40,19 +35,16 @@ public class RiskRuleService {
         return riskRuleRepository.save(rule);
     }
 
-    // ✅ Get all rules
     public List<RiskRuleEntity> getAllRules() {
         return riskRuleRepository.findAll();
     }
 
-    // ✅ Get rule by ID
     public RiskRuleEntity getRuleById(Long id) {
         return riskRuleRepository.findById(id)
                 .orElseThrow(() ->
                         new BadRequestException("Rule not found"));
     }
 
-    // ✅ Delete rule
     public void deleteRule(Long id) {
         if (!riskRuleRepository.existsById(id)) {
             throw new BadRequestException("Rule not found");
