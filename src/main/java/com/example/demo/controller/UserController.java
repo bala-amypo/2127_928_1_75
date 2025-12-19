@@ -1,10 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.UserEntity;
 import com.example.demo.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -16,23 +14,25 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/register")
-    public UserEntity register(@RequestBody UserEntity user) {
-        return userService.register(user);
-    }
-
-    @GetMapping
-    public List<UserEntity> getAllUsers() {
-        return userService.getAllUsers();
+    @PostMapping
+    public ResponseEntity<Long> addUser(@RequestParam String username) {
+        return ResponseEntity.ok(userService.addUser(username));
     }
 
     @GetMapping("/{id}")
-    public UserEntity getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
+    public ResponseEntity<String> getUser(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getUser(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateUser(@PathVariable Long id, @RequestParam String username) {
+        userService.updateUser(id, username);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
+        return ResponseEntity.ok().build();
     }
 }

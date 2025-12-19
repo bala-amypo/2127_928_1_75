@@ -1,49 +1,36 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.VisitLogEntity;
-import com.example.demo.exception.BadRequestException;
-import com.example.demo.repository.VisitLogRepository;
+import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class VisitLogService {
 
-    private final VisitLogRepository visitLogRepository;
+    private final Map<Long, String> visitLogs = new HashMap<>();
+    private long counter = 1;
 
-    public VisitLogService(VisitLogRepository visitLogRepository) {
-        this.visitLogRepository = visitLogRepository;
+    public Long logVisit(String details) {
+        long id = counter++;
+        visitLogs.put(id, details);
+        return id;
     }
 
-    public VisitLogEntity createVisitLog(VisitLogEntity visitLog) {
-
-        if (visitLog.getPurpose() == null || visitLog.getPurpose().isEmpty()) {
-            throw new BadRequestException("Purpose required");
-        }
-
-        if (visitLog.getLocation() == null || visitLog.getLocation().isEmpty()) {
-            throw new BadRequestException("Location required");
-        }
-
-        if (visitLog.getEntryTime() == null) {
-            visitLog.setEntryTime(LocalDateTime.now());
-        }
-
-        if (visitLog.getExitTime() != null &&
-                visitLog.getExitTime().isBefore(visitLog.getEntryTime())) {
-            throw new BadRequestException("Exit time must be after entry time");
-        }
-
-        return visitLogRepository.save(visitLog);
+    public String getVisitLog(Long id) {
+        if (!visitLogs.containsKey(id)) throw new ResourceNotFoundException("Visit log not found: " + id);
+        return visitLogs.get(id);
     }
 
-    public List<VisitLogEntity> getAllVisitLogs() {
-        return visitLogRepository.findAll();
+    public List<String> getAllVisitLogs() {
+        return new ArrayList<>(visitLogs.values());
     }
 
-    public List<VisitLogEntity> getLogsByVisitorId(Long visitorId) {
-        return visitLogRepository.findByVisitorId(visitorId);
+    public void deleteVisitLog(Long id) {
+        if (!visitLogs.containsKey(id)) throw new ResourceNotFoundException("Visit log not found: " + id);
+        visitLogs.remove(id);
     }
 }

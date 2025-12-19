@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.VisitLogEntity;
 import com.example.demo.service.VisitLogService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,17 +17,23 @@ public class VisitLogController {
     }
 
     @PostMapping
-    public VisitLogEntity createVisitLog(@RequestBody VisitLogEntity visitLog) {
-        return visitLogService.createVisitLog(visitLog);
+    public ResponseEntity<Long> logVisit(@RequestParam String details) {
+        return ResponseEntity.ok(visitLogService.logVisit(details));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<String> getVisitLog(@PathVariable Long id) {
+        return ResponseEntity.ok(visitLogService.getVisitLog(id));
     }
 
     @GetMapping
-    public List<VisitLogEntity> getAllVisitLogs() {
-        return visitLogService.getAllVisitLogs();
+    public ResponseEntity<List<String>> getAllVisitLogs() {
+        return ResponseEntity.ok(visitLogService.getAllVisitLogs());
     }
 
-    @GetMapping("/visitor/{visitorId}")
-    public List<VisitLogEntity> getLogsByVisitor(@PathVariable Long visitorId) {
-        return visitLogService.getLogsByVisitorId(visitorId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteVisitLog(@PathVariable Long id) {
+        visitLogService.deleteVisitLog(id);
+        return ResponseEntity.ok().build();
     }
 }
