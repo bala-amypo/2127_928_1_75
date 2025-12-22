@@ -8,6 +8,5 @@ import java.util.List;
 public interface ScoreAuditLogRepository
         extends JpaRepository<ScoreAuditLogEntity, Long> {
 
-    // Fetch audit logs for a visitor
     List<ScoreAuditLogEntity> findByVisitorId(Long visitorId);
 }
