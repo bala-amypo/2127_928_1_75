@@ -19,7 +19,7 @@ public class UserEntity {
     private Long id;
 
     @Column(unique = true)
-    private String email;   // email optional but unique if present
+    private String email;   
 
     private String password;
 

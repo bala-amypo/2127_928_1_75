@@ -20,7 +20,6 @@ public class RiskRuleEntity {
     @Column(unique = true)
     private String ruleName;
 
-    // AFTER_HOURS / FREQUENT_VISITS / BLACKLIST / KEYWORD / CUSTOM
     private String ruleType;
 
     private int threshold;

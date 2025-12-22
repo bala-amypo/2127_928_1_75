@@ -17,17 +17,13 @@ public class RiskScoreEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Visitor whose risk is evaluated
     @ManyToOne
     private VisitorEntity visitor;
 
-    // Final aggregated score
     private int totalScore;
 
-    // LOW / MEDIUM / HIGH / CRITICAL
     private String riskLevel;
 
-    // Evaluation timestamp
     private LocalDateTime evaluatedAt;
 
     @PrePersist

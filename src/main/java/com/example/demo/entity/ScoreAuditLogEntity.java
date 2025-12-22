@@ -17,21 +17,16 @@ public class ScoreAuditLogEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Visitor for whom rule was applied
     @ManyToOne
     private VisitorEntity visitor;
 
-    // Applied risk rule
     @ManyToOne
     private RiskRuleEntity appliedRule;
 
-    // Score added by rule
     private int scoreChange;
 
-    // Reason / rule name
     private String reason;
 
-    // Timestamp
     private LocalDateTime createdAt;
 
     @PrePersist
