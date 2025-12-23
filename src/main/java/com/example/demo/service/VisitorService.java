@@ -1,35 +1,40 @@
 package com.example.demo.service;
 
-import com.example.demo.exception.ResourceNotFoundException;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.example.demo.entity.Visitor;
+import com.example.demo.repository.VisitorRepository;
 
 @Service
 public class VisitorService {
 
-    private final Map<Long, String> visitors = new HashMap<>();
-    private long counter = 1;
+    private final VisitorRepository repo;
 
-    public Long addVisitor(String name) {
-        long id = counter++;
-        visitors.put(id, name);
-        return id;
+    public VisitorService(VisitorRepository repo) {
+        this.repo = repo;
     }
 
-    public String getVisitor(Long id) {
-        if (!visitors.containsKey(id)) throw new ResourceNotFoundException("Visitor not found: " + id);
-        return visitors.get(id);
+    // POST
+    public Visitor saveVisitor(Visitor visitor) {
+        return repo.save(visitor);
     }
 
-    public void updateVisitor(Long id, String name) {
-        if (!visitors.containsKey(id)) throw new ResourceNotFoundException("Visitor not found: " + id);
-        visitors.put(id, name);
+    // GET by ID
+    public Visitor getVisitor(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Visitor not found"));
     }
 
-    public void deleteVisitor(Long id) {
-        if (!visitors.containsKey(id)) throw new ResourceNotFoundException("Visitor not found: " + id);
-        visitors.remove(id);
+    // UPDATE
+    public Visitor updateVisitor(Long id, Visitor newData) {
+        Visitor existing = getVisitor(id);
+
+        existing.setName(newData.getName());
+        existing.setAge(newData.getAge());
+        existing.setEmail(newData.getEmail());
+        existing.setPhone(newData.getPhone());
+        existing.setPurpose(newData.getPurpose());
+
+        return repo.save(existing);
     }
 }

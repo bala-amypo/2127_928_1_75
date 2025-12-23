@@ -1,38 +1,43 @@
 package com.example.demo.controller;
 
-import com.example.demo.service.VisitorService;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+import com.example.demo.entity.Visitor;
+import com.example.demo.service.VisitorService;
 
 @RestController
 @RequestMapping("/visitors")
+@CrossOrigin(origins = "*")
 public class VisitorController {
 
-    private final VisitorService visitorService;
+    private final VisitorService service;
 
-    public VisitorController(VisitorService visitorService) {
-        this.visitorService = visitorService;
+    public VisitorController(VisitorService service) {
+        this.service = service;
     }
 
+    // ✅ POST - Create visitor
     @PostMapping
-    public ResponseEntity<Long> addVisitor(@RequestParam String name) {
-        return ResponseEntity.ok(visitorService.addVisitor(name));
+    public ResponseEntity<Visitor> createVisitor(
+            @Valid @RequestBody Visitor visitor) {
+
+        Visitor saved = service.saveVisitor(visitor);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
+    // ✅ GET - Fetch visitor by ID
     @GetMapping("/{id}")
-    public ResponseEntity<String> getVisitor(@PathVariable Long id) {
-        return ResponseEntity.ok(visitorService.getVisitor(id));
+    public ResponseEntity<Visitor> getVisitor(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getVisitor(id));
     }
 
+    // ✅ PUT - Update visitor
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateVisitor(@PathVariable Long id, @RequestParam String name) {
-        visitorService.updateVisitor(id, name);
-        return ResponseEntity.ok().build();
-    }
+    public ResponseEntity<Visitor> updateVisitor(
+            @PathVariable Long id,
+            @Valid @RequestBody Visitor visitor) {
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteVisitor(@PathVariable Long id) {
-        visitorService.deleteVisitor(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(service.updateVisitor(id, visitor));
     }
 }

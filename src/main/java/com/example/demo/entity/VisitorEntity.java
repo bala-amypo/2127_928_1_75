@@ -1,27 +1,29 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import jakarta.validation.constraints.*;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class VisitorEntity {
+@Table(name = "visitors")
+public class Visitor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Name is required")
     private String name;
 
+    @NotNull
+    private Integer age;
+
+    @Email
+    private String email;
+
+    @Pattern(regexp = "^[6-9]\\d{9}$")
     private String phone;
 
-    private String idProof;
+    private String purpose;
 
-    private boolean blacklisted;
-
-    private int visitCount;
+    // getters and setters
 }
