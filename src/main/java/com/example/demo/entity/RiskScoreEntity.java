@@ -1,16 +1,9 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Table(name = "risk_scores")
 public class RiskScoreEntity {
 
     @Id
@@ -18,18 +11,43 @@ public class RiskScoreEntity {
     private Long id;
 
     @ManyToOne
-    private VisitorEntity visitor;
+    @JoinColumn(name = "visitor_id")
+    private Visitor visitor;
 
-    private int totalScore;
+    private Integer score;
+    private String level;
 
-    private String riskLevel;
+    // ===== GETTERS =====
+    public Long getId() {
+        return id;
+    }
 
-    private LocalDateTime evaluatedAt;
+    public Visitor getVisitor() {
+        return visitor;
+    }
 
-    @PrePersist
-    public void onCreate() {
-        if (evaluatedAt == null) {
-            evaluatedAt = LocalDateTime.now();
-        }
+    public Integer getScore() {
+        return score;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    // ===== SETTERS =====
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setVisitor(Visitor visitor) {
+        this.visitor = visitor;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 }

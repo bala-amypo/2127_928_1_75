@@ -1,16 +1,9 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Table(name = "score_audit_logs")
 public class ScoreAuditLogEntity {
 
     @Id
@@ -18,19 +11,43 @@ public class ScoreAuditLogEntity {
     private Long id;
 
     @ManyToOne
-    private VisitorEntity visitor;
+    @JoinColumn(name = "visitor_id")
+    private Visitor visitor;
 
-    @ManyToOne
-    private RiskRuleEntity appliedRule;
-
-    private int scoreChange;
-
+    private String riskLevel;
     private String reason;
 
-    private LocalDateTime createdAt;
+    // ===== GETTERS =====
+    public Long getId() {
+        return id;
+    }
 
-    @PrePersist
-    public void onCreate() {
-        createdAt = LocalDateTime.now();
+    public Visitor getVisitor() {
+        return visitor;
+    }
+
+    public String getRiskLevel() {
+        return riskLevel;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    // ===== SETTERS =====
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setVisitor(Visitor visitor) {
+        this.visitor = visitor;
+    }
+
+    public void setRiskLevel(String riskLevel) {
+        this.riskLevel = riskLevel;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 }

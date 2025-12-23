@@ -1,7 +1,9 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "visitors")
@@ -24,7 +26,7 @@ public class Visitor {
 
     private String purpose;
 
-    // ✅ GETTERS
+    // ===== GETTERS =====
     public Long getId() {
         return id;
     }
@@ -49,7 +51,7 @@ public class Visitor {
         return purpose;
     }
 
-    // ✅ SETTERS
+    // ===== SETTERS =====
     public void setId(Long id) {
         this.id = id;
     }
