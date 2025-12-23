@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 import com.example.demo.entity.Visitor;
 import com.example.demo.repository.VisitorRepository;
@@ -8,33 +7,33 @@ import com.example.demo.repository.VisitorRepository;
 @Service
 public class VisitorService {
 
-    private final VisitorRepository repo;
+    private final VisitorRepository repository;
 
-    public VisitorService(VisitorRepository repo) {
-        this.repo = repo;
+    public VisitorService(VisitorRepository repository) {
+        this.repository = repository;
     }
 
-    // POST
-    public Visitor saveVisitor(Visitor visitor) {
-        return repo.save(visitor);
+    // CREATE
+    public Visitor save(Visitor visitor) {
+        return repository.save(visitor);
     }
 
-    // GET by ID
-    public Visitor getVisitor(Long id) {
-        return repo.findById(id)
+    // READ
+    public Visitor getById(Long id) {
+        return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Visitor not found"));
     }
 
     // UPDATE
-    public Visitor updateVisitor(Long id, Visitor newData) {
-        Visitor existing = getVisitor(id);
+    public Visitor update(Long id, Visitor data) {
+        Visitor existing = getById(id);
 
-        existing.setName(newData.getName());
-        existing.setAge(newData.getAge());
-        existing.setEmail(newData.getEmail());
-        existing.setPhone(newData.getPhone());
-        existing.setPurpose(newData.getPurpose());
+        existing.setName(data.getName());
+        existing.setAge(data.getAge());
+        existing.setEmail(data.getEmail());
+        existing.setPhone(data.getPhone());
+        existing.setPurpose(data.getPurpose());
 
-        return repo.save(existing);
+        return repository.save(existing);
     }
 }

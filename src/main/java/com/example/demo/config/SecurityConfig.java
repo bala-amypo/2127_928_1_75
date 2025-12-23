@@ -2,9 +2,9 @@ package com.example.demo.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.Customizer;
 import org.springframework.web.cors.*;
 
 import java.util.List;
@@ -13,17 +13,16 @@ import java.util.List;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-            .cors(Customizer.withDefaults())   // ✅ ENABLE CORS
-            .csrf(csrf -> csrf.disable())      // ✅ Disable CSRF for APIs
+            .csrf(csrf -> csrf.disable())
+            .cors(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
                     "/v3/api-docs/**",
                     "/swagger-ui/**",
-                    "/swagger-ui.html",
-                    "/h2-console/**"
+                    "/swagger-ui.html"
                 ).permitAll()
                 .anyRequest().permitAll()
             );
@@ -31,20 +30,16 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // ✅ GLOBAL CORS CONFIG
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of("*"));
         config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(false);
 
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
-
         return source;
     }
 }

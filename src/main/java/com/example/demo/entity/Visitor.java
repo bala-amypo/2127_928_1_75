@@ -23,7 +23,6 @@ public class Visitor {
     private String email;
 
     private String phone;
-
     private String purpose;
 
     // ===== GETTERS =====

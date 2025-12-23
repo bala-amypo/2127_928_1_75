@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import com.example.demo.entity.Visitor;
@@ -17,27 +18,25 @@ public class VisitorController {
         this.service = service;
     }
 
-    // ✅ POST - Create visitor
+    // POST
     @PostMapping
-    public ResponseEntity<Visitor> createVisitor(
-            @Valid @RequestBody Visitor visitor) {
-
-        Visitor saved = service.saveVisitor(visitor);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    public ResponseEntity<Visitor> create(@Valid @RequestBody Visitor visitor) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(service.save(visitor));
     }
 
-    // ✅ GET - Fetch visitor by ID
+    // GET
     @GetMapping("/{id}")
-    public ResponseEntity<Visitor> getVisitor(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getVisitor(id));
+    public ResponseEntity<Visitor> get(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getById(id));
     }
 
-    // ✅ PUT - Update visitor
+    // PUT
     @PutMapping("/{id}")
-    public ResponseEntity<Visitor> updateVisitor(
+    public ResponseEntity<Visitor> update(
             @PathVariable Long id,
             @Valid @RequestBody Visitor visitor) {
 
-        return ResponseEntity.ok(service.updateVisitor(id, visitor));
+        return ResponseEntity.ok(service.update(id, visitor));
     }
 }
