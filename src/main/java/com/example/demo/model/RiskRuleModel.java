@@ -1,4 +1,5 @@
-package com.example.demo.model;
+import com.example.demo.model.*;
+
 
 public class RiskRuleModel {
     private Long id;
