@@ -1,21 +1,25 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.UserModel;
-import com.example.demo.service.UserService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserService userService;
+    private final List<UserModel> users = new ArrayList<>();
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    @PostMapping
+    public UserModel register(@RequestBody UserModel user) {
+        users.add(user);
+        return user;
     }
 
-    @PostMapping("/register")
-    public UserModel register(@RequestBody UserModel userModel) {
-        return userService.register(userModel);
+    @GetMapping
+    public List<UserModel> getAll() {
+        return users;
     }
 }
