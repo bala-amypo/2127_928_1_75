@@ -1,27 +1,12 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 
-@Entity
-@Table(name = "risk_scores")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Builder
-public class RiskScoreEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class RiskScoreModel {
     private Long id;
-
-    @Column(nullable = false)
-    private Long visitId;
-
-    @Column(nullable = false)
-    private Integer score;
-
-    @Column(nullable = false)
-    private String riskLevel;
+    private Long visitorId;
+    private int totalScore;
 }

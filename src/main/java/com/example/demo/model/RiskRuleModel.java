@@ -1,44 +1,17 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 
-@Entity
-@Table(name = "risk_rules")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Builder
-public class RiskRuleEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class RiskRuleModel {
     private Long id;
+    private String ruleName;
+    private int scoreImpact;
 
-    /**
-     * Rule type example:
-     * LOCATION, DEVICE, FREQUENCY, TIME, KEYWORD
-     */
-    @Column(nullable = false)
-    private String ruleType;
-
-    /**
-     * Rule value example:
-     * "UNKNOWN_LOCATION", "NIGHT_TIME", "VPN", etc.
-     */
-    @Column(nullable = false)
-    private String ruleValue;
-
-    /**
-     * Score impact (positive or negative)
-     */
-    @Column(nullable = false)
-    private Integer scoreImpact;
-
-    /**
-     * Whether the rule is currently active
-     */
-    @Column(nullable = false)
-    private Boolean active;
+    // Example method if used in service
+    public int getScoreImpact() {
+        return scoreImpact;
+    }
 }
