@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.RiskRuleEntity;
+import com.example.demo.model.RiskRuleModel;
 import com.example.demo.service.RiskRuleService;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,14 +10,19 @@ import java.util.List;
 @RequestMapping("/risk-rules")
 public class RiskRuleController {
 
-    private final RiskRuleService riskRuleService;
+    private final RiskRuleService service;
 
-    public RiskRuleController(RiskRuleService riskRuleService) {
-        this.riskRuleService = riskRuleService;
+    public RiskRuleController(RiskRuleService service) {
+        this.service = service;
     }
 
-    @GetMapping("/active")
-    public List<RiskRuleEntity> getActiveRules() {
-        return riskRuleService.getActiveRules();
+    @PostMapping
+    public RiskRuleModel create(@RequestBody RiskRuleModel model) {
+        return service.create(model);
+    }
+
+    @GetMapping
+    public List<RiskRuleModel> getAll() {
+        return service.getAll();
     }
 }

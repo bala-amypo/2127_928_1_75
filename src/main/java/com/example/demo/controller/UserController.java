@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.UserEntity;
+import com.example.demo.model.UserModel;
 import com.example.demo.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +14,8 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
-    public UserEntity createUser(@RequestBody UserEntity user) {
-        return userService.createUser(user);
+    @PostMapping("/register")
+    public UserModel register(@RequestBody UserModel userModel) {
+        return userService.register(userModel);
     }
 }

@@ -1,23 +1,23 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.ScoreAuditLogEntity;
-import com.example.demo.repository.ScoreAuditLogRepository;
+import com.example.demo.model.ScoreAuditLogModel;
+import com.example.demo.service.ScoreAuditLogService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/score-audit-logs")
+@RequestMapping("/audit-logs")
 public class ScoreAuditLogController {
 
-    private final ScoreAuditLogRepository scoreAuditLogRepository;
+    private final ScoreAuditLogService service;
 
-    public ScoreAuditLogController(ScoreAuditLogRepository scoreAuditLogRepository) {
-        this.scoreAuditLogRepository = scoreAuditLogRepository;
+    public ScoreAuditLogController(ScoreAuditLogService service) {
+        this.service = service;
     }
 
-    @GetMapping("/visit/{visitId}")
-    public List<ScoreAuditLogEntity> getLogsByVisitId(@PathVariable Long visitId) {
-        return scoreAuditLogRepository.findByVisitId(visitId);
+    @GetMapping
+    public List<ScoreAuditLogModel> getAll() {
+        return service.getAll();
     }
 }
