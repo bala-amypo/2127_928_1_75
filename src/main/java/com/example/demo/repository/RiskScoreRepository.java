@@ -1,11 +1,22 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.RiskScoreEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.demo.model.RiskScoreModel;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
-public interface RiskScoreRepository extends JpaRepository<RiskScoreEntity, Long> {
+@Repository
+public class RiskScoreRepository {
 
-    Optional<RiskScoreEntity> findByVisitId(Long visitId);
+    private final List<RiskScoreModel> scores = new ArrayList<>();
+
+    public RiskScoreModel save(RiskScoreModel score) {
+        scores.add(score);
+        return score;
+    }
+
+    public List<RiskScoreModel> findAll() {
+        return scores;
+    }
 }

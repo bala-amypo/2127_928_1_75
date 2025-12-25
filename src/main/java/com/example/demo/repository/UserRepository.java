@@ -3,20 +3,27 @@ package com.example.demo.repository;
 import com.example.demo.model.UserModel;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserRepository {
 
-    private final Map<String, UserModel> store = new HashMap<>();
+    private final List<UserModel> users = new ArrayList<>();
 
     public UserModel save(UserModel user) {
-        store.put(user.getUsername(), user);
+        users.add(user);
         return user;
     }
 
-    public UserModel findByUsername(String username) {
-        return store.get(username);
+    public Optional<UserModel> findByUsername(String username) {
+        return users.stream()
+                .filter(u -> u.getUsername().equals(username))
+                .findFirst();
+    }
+
+    public List<UserModel> findAll() {
+        return users;
     }
 }
