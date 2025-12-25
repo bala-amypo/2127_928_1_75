@@ -1,8 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.*;
-import com.example.demo.repository.RiskRuleRepository;
-import com.example.demo.repository.RiskScoreRepository;
+import com.example.demo.model.RiskRuleModel;
+import com.example.demo.model.RiskScoreModel;
+import com.example.demo.model.VisitLogModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,42 +10,15 @@ import java.util.List;
 @Service
 public class RiskScoreService {
 
-    private final RiskScoreRepository riskScoreRepository;
-    private final RiskRuleRepository riskRuleRepository;
-    private final ScoreAuditLogService scoreAuditLogService;
-
-    public RiskScoreService(RiskScoreRepository riskScoreRepository,
-                            RiskRuleRepository riskRuleRepository,
-                            ScoreAuditLogService scoreAuditLogService) {
-        this.riskScoreRepository = riskScoreRepository;
-        this.riskRuleRepository = riskRuleRepository;
-        this.scoreAuditLogService = scoreAuditLogService;
-    }
-
-    public RiskScoreEntity calculateRiskScore(VisitLogEntity visitLogEntity) {
-
-        List<RiskRuleEntity> rules = riskRuleRepository.findByActiveTrue();
-
+    public RiskScoreModel calculateRiskScore(List<RiskRuleModel> rules, VisitLogModel visitLog) {
         int totalScore = rules.stream()
-                .mapToInt(RiskRuleEntity::getScoreImpact)
+                .mapToInt(RiskRuleModel::getScoreImpact) // fixed method reference
                 .sum();
 
-        String level = totalScore >= 70 ? "HIGH"
-                : totalScore >= 40 ? "MEDIUM"
-                : "LOW";
-
-        RiskScoreEntity riskScore = RiskScoreEntity.builder()
-                .visitId(visitLogEntity.getId())
-                .score(totalScore)
-                .riskLevel(level)
+        return RiskScoreModel.builder()
+                .id(visitLog.getId())
+                .visitorId(visitLog.getVisitorId())
+                .totalScore(totalScore)
                 .build();
-
-        riskScoreRepository.save(riskScore);
-
-        scoreAuditLogService.logScoreChange(
-                visitLogEntity.getId(), 0, totalScore
-        );
-
-        return riskScore;
     }
 }

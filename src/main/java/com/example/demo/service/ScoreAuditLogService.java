@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.ScoreAuditLogEntity;
-import com.example.demo.repository.ScoreAuditLogRepository;
+import com.example.demo.model.ScoreAuditLogModel;
+import com.example.demo.model.VisitLogModel;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -9,21 +9,12 @@ import java.time.LocalDateTime;
 @Service
 public class ScoreAuditLogService {
 
-    private final ScoreAuditLogRepository scoreAuditLogRepository;
-
-    public ScoreAuditLogService(ScoreAuditLogRepository scoreAuditLogRepository) {
-        this.scoreAuditLogRepository = scoreAuditLogRepository;
-    }
-
-    public void logScoreChange(Long visitId, Integer oldScore, Integer newScore) {
-
-        ScoreAuditLogEntity log = ScoreAuditLogEntity.builder()
-                .visitId(visitId)
+    public ScoreAuditLogModel createAuditLog(VisitLogModel visitLog, int oldScore, int newScore) {
+        return ScoreAuditLogModel.builder()
+                .visitLogId(visitLog.getId())
                 .oldScore(oldScore)
                 .newScore(newScore)
-                .changedAt(LocalDateTime.now())
+                .auditTime(LocalDateTime.now())
                 .build();
-
-        scoreAuditLogRepository.save(log);
     }
 }
