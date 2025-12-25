@@ -1,53 +1,32 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "score_audit_logs")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ScoreAuditLogEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "visitor_id")
-    private Visitor visitor;
+    @Column(nullable = false)
+    private Long visitId;
 
-    private String riskLevel;
-    private String reason;
+    @Column(nullable = false)
+    private Integer oldScore;
 
-    // ===== GETTERS =====
-    public Long getId() {
-        return id;
-    }
+    @Column(nullable = false)
+    private Integer newScore;
 
-    public Visitor getVisitor() {
-        return visitor;
-    }
-
-    public String getRiskLevel() {
-        return riskLevel;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    // ===== SETTERS =====
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setVisitor(Visitor visitor) {
-        this.visitor = visitor;
-    }
-
-    public void setRiskLevel(String riskLevel) {
-        this.riskLevel = riskLevel;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
+    @Column(nullable = false)
+    private LocalDateTime changedAt;
 }

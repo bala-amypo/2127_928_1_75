@@ -3,9 +3,8 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Entity
+@Table(name = "risk_rules")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,14 +16,29 @@ public class RiskRuleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    private String ruleName;
-
+    /**
+     * Rule type example:
+     * LOCATION, DEVICE, FREQUENCY, TIME, KEYWORD
+     */
+    @Column(nullable = false)
     private String ruleType;
 
-    private int threshold;
+    /**
+     * Rule value example:
+     * "UNKNOWN_LOCATION", "NIGHT_TIME", "VPN", etc.
+     */
+    @Column(nullable = false)
+    private String ruleValue;
 
-    private int scoreImpact;
+    /**
+     * Score impact (positive or negative)
+     */
+    @Column(nullable = false)
+    private Integer scoreImpact;
 
-    private LocalDateTime createdAt;
+    /**
+     * Whether the rule is currently active
+     */
+    @Column(nullable = false)
+    private Boolean active;
 }
