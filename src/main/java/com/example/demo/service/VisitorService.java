@@ -1,22 +1,25 @@
 package com.example.demo.service;
 
 import com.example.demo.model.VisitorModel;
+import com.example.demo.repository.VisitorRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class VisitorService {
 
-    private final List<VisitorModel> visitors = new ArrayList<>();
+    private final VisitorRepository repository;
 
-    public VisitorModel create(VisitorModel visitor) {
-        visitors.add(visitor);
-        return visitor;
+    public VisitorService(VisitorRepository repository) {
+        this.repository = repository;
     }
 
-    public List<VisitorModel> getAll() {
-        return visitors;
+    public VisitorModel createVisitor(VisitorModel visitor) {
+        return repository.save(visitor);
+    }
+
+    public List<VisitorModel> getAllVisitors() {
+        return repository.findAll();
     }
 }

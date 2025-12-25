@@ -1,22 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.VisitorModel;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Repository
-public class VisitorRepository {
-
-    private final List<VisitorModel> visitors = new ArrayList<>();
-
-    public VisitorModel save(VisitorModel visitor) {
-        visitors.add(visitor);
-        return visitor;
-    }
-
-    public List<VisitorModel> findAll() {
-        return visitors;
-    }
+public interface VisitorRepository extends JpaRepository<VisitorModel, Long> {
 }

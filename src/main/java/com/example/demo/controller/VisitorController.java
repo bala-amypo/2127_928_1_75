@@ -18,11 +18,12 @@ public class VisitorController {
 
     @PostMapping
     public VisitorModel create(@RequestBody VisitorModel visitor) {
-        return service.create(visitor);
+        visitor.setId(null);
+        return service.createVisitor(visitor);
     }
 
     @GetMapping
     public List<VisitorModel> getAll() {
-        return service.getAll();
+        return service.getAllVisitors();
     }
 }
