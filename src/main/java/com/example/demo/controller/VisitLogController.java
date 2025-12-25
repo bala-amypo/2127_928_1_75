@@ -1,24 +1,21 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.VisitLogEntity;
+import com.example.demo.model.VisitLogModel;
 import com.example.demo.service.VisitLogService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/visits")
+@RequestMapping("/visit-logs")
 public class VisitLogController {
 
-    private final VisitLogService visitLogService;
+    private final VisitLogService service;
 
-    public VisitLogController(VisitLogService visitLogService) {
-        this.visitLogService = visitLogService;
+    public VisitLogController(VisitLogService service) {
+        this.service = service;
     }
 
-    @PostMapping("/{visitorId}")
-    public VisitLogEntity createVisit(
-            @PathVariable Long visitorId,
-            @RequestBody VisitLogEntity visitLog) {
-
-        return visitLogService.createVisitLog(visitorId, visitLog);
+    @PostMapping
+    public VisitLogModel create(@RequestBody VisitLogModel model) {
+        return service.create(model);
     }
 }
