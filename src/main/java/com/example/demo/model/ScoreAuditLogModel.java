@@ -1,17 +1,43 @@
 package com.example.demo.model;
 
-import lombok.*;
-
 import java.time.LocalDateTime;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class ScoreAuditLogModel {
+
     private Long id;
-    private String username;
-    private int oldScore;
-    private int newScore;
+    private Long riskScoreId;
+    private String action;
     private LocalDateTime timestamp;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getRiskScoreId() {
+        return riskScoreId;
+    }
+
+    public void setRiskScoreId(Long riskScoreId) {
+        this.riskScoreId = riskScoreId;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
 }

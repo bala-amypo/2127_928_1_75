@@ -1,21 +1,22 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.RiskRuleEntity;
-import com.example.demo.repository.RiskRuleRepository;
+import com.example.demo.model.RiskRuleModel;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class RiskRuleService {
 
-    private final RiskRuleRepository riskRuleRepository;
+    private final List<RiskRuleModel> rules = new ArrayList<>();
 
-    public RiskRuleService(RiskRuleRepository riskRuleRepository) {
-        this.riskRuleRepository = riskRuleRepository;
+    public RiskRuleModel create(RiskRuleModel rule) {
+        rules.add(rule);
+        return rule;
     }
 
-    public List<RiskRuleEntity> getActiveRules() {
-        return riskRuleRepository.findByActiveTrue();
+    public List<RiskRuleModel> getAll() {
+        return rules;
     }
 }
