@@ -6,7 +6,7 @@ public class VisitLogModel {
 
     private Long id;
     private Long visitorId;
-    private LocalDateTime visitTime;
+    private LocalDateTime entryTime;
 
     public Long getId() {
         return id;
@@ -24,11 +24,11 @@ public class VisitLogModel {
         this.visitorId = visitorId;
     }
 
-    public LocalDateTime getVisitTime() {
-        return visitTime;
+    public LocalDateTime getEntryTime() {
+        return entryTime;
     }
 
-    public void setVisitTime(LocalDateTime visitTime) {
-        this.visitTime = visitTime;
+    public void setEntryTime(LocalDateTime entryTime) {
+        this.entryTime = entryTime;
     }
 }

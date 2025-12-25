@@ -18,15 +18,15 @@ public class UserService {
     }
 
     public UserModel register(String username, String password) {
-        UserModel user = UserModel.builder()
-                .username(username)
-                .password(passwordEncoder.encode(password))
-                .build();
+        UserModel user = new UserModel();
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
         return userRepository.save(user);
     }
 
-    public boolean authenticate(String username, String password) {
-        UserModel user = userRepository.findByUsername(username);
-        return user != null && passwordEncoder.matches(password, user.getPassword());
+    public UserModel getByUsername(String username) {
+        return userRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }
