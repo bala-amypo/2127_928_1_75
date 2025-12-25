@@ -1,37 +1,21 @@
 package com.example.demo.service;
 
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.util.RiskLevelUtils;
+import com.example.demo.entity.RiskRuleEntity;
+import com.example.demo.repository.RiskRuleRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Service
 public class RiskRuleService {
 
-    private final Map<String, String> riskRules = new HashMap<>();
+    private final RiskRuleRepository riskRuleRepository;
 
-    public RiskRuleService() {
-        riskRules.put("visitorWithoutPass", RiskLevelUtils.HIGH);
-        riskRules.put("unknownVisitor", RiskLevelUtils.CRITICAL);
+    public RiskRuleService(RiskRuleRepository riskRuleRepository) {
+        this.riskRuleRepository = riskRuleRepository;
     }
 
-    public String getRiskLevel(String ruleKey) {
-        if (!riskRules.containsKey(ruleKey)) {
-            throw new ResourceNotFoundException("Risk rule not found: " + ruleKey);
-        }
-        return riskRules.get(ruleKey);
-    }
-
-    public void saveOrUpdateRule(String ruleKey, String riskLevel) {
-        riskRules.put(ruleKey, riskLevel);
-    }
-
-    public void deleteRule(String ruleKey) {
-        if (!riskRules.containsKey(ruleKey)) {
-            throw new ResourceNotFoundException("Cannot delete. Rule not found: " + ruleKey);
-        }
-        riskRules.remove(ruleKey);
+    public List<RiskRuleEntity> getActiveRules() {
+        return riskRuleRepository.findByActiveTrue();
     }
 }

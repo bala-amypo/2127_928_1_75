@@ -1,37 +1,51 @@
 package com.example.demo.service;
 
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.util.RiskLevelUtils;
+import com.example.demo.entity.*;
+import com.example.demo.repository.RiskRuleRepository;
+import com.example.demo.repository.RiskScoreRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Service
 public class RiskScoreService {
 
-    private final Map<Long, String> riskScores = new HashMap<>();
-    private long counter = 1;
+    private final RiskScoreRepository riskScoreRepository;
+    private final RiskRuleRepository riskRuleRepository;
+    private final ScoreAuditLogService scoreAuditLogService;
 
-    public Long addScore(String level) {
-        long id = counter++;
-        if (!isValidRiskLevel(level)) {
-            throw new ResourceNotFoundException("Invalid risk level: " + level);
-        }
-        riskScores.put(id, level);
-        return id;
+    public RiskScoreService(RiskScoreRepository riskScoreRepository,
+                            RiskRuleRepository riskRuleRepository,
+                            ScoreAuditLogService scoreAuditLogService) {
+        this.riskScoreRepository = riskScoreRepository;
+        this.riskRuleRepository = riskRuleRepository;
+        this.scoreAuditLogService = scoreAuditLogService;
     }
 
-    public String getScore(Long id) {
-        String score = riskScores.get(id);
-        if (score == null) throw new ResourceNotFoundException("Score not found for ID: " + id);
-        return score;
-    }
+    public RiskScoreEntity calculateRiskScore(VisitLogEntity visitLogEntity) {
 
-    private boolean isValidRiskLevel(String level) {
-        return level.equals(RiskLevelUtils.LOW) ||
-               level.equals(RiskLevelUtils.MEDIUM) ||
-               level.equals(RiskLevelUtils.HIGH) ||
-               level.equals(RiskLevelUtils.CRITICAL);
+        List<RiskRuleEntity> rules = riskRuleRepository.findByActiveTrue();
+
+        int totalScore = rules.stream()
+                .mapToInt(RiskRuleEntity::getScoreImpact)
+                .sum();
+
+        String level = totalScore >= 70 ? "HIGH"
+                : totalScore >= 40 ? "MEDIUM"
+                : "LOW";
+
+        RiskScoreEntity riskScore = RiskScoreEntity.builder()
+                .visitId(visitLogEntity.getId())
+                .score(totalScore)
+                .riskLevel(level)
+                .build();
+
+        riskScoreRepository.save(riskScore);
+
+        scoreAuditLogService.logScoreChange(
+                visitLogEntity.getId(), 0, totalScore
+        );
+
+        return riskScore;
     }
 }

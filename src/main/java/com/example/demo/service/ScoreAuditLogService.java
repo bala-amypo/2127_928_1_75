@@ -4,7 +4,7 @@ import com.example.demo.entity.ScoreAuditLogEntity;
 import com.example.demo.repository.ScoreAuditLogRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Service
 public class ScoreAuditLogService {
@@ -15,11 +15,15 @@ public class ScoreAuditLogService {
         this.scoreAuditLogRepository = scoreAuditLogRepository;
     }
 
-    public List<ScoreAuditLogEntity> getAllLogs() {
-        return scoreAuditLogRepository.findAll();
-    }
+    public void logScoreChange(Long visitId, Integer oldScore, Integer newScore) {
 
-    public List<ScoreAuditLogEntity> getLogsByVisitor(Long visitorId) {
-        return scoreAuditLogRepository.findByVisitorId(visitorId);
+        ScoreAuditLogEntity log = ScoreAuditLogEntity.builder()
+                .visitId(visitId)
+                .oldScore(oldScore)
+                .newScore(newScore)
+                .changedAt(LocalDateTime.now())
+                .build();
+
+        scoreAuditLogRepository.save(log);
     }
 }
