@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.ScoreAuditLogEntity;
-import com.example.demo.service.ScoreAuditLogService;
+import com.example.demo.repository.ScoreAuditLogRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,19 +10,14 @@ import java.util.List;
 @RequestMapping("/score-audit-logs")
 public class ScoreAuditLogController {
 
-    private final ScoreAuditLogService scoreAuditLogService;
+    private final ScoreAuditLogRepository scoreAuditLogRepository;
 
-    public ScoreAuditLogController(ScoreAuditLogService scoreAuditLogService) {
-        this.scoreAuditLogService = scoreAuditLogService;
+    public ScoreAuditLogController(ScoreAuditLogRepository scoreAuditLogRepository) {
+        this.scoreAuditLogRepository = scoreAuditLogRepository;
     }
 
-    @GetMapping
-    public List<ScoreAuditLogEntity> getAllLogs() {
-        return scoreAuditLogService.getAllLogs();
-    }
-
-    @GetMapping("/visitor/{visitorId}")
-    public List<ScoreAuditLogEntity> getLogsByVisitor(@PathVariable Long visitorId) {
-        return scoreAuditLogService.getLogsByVisitor(visitorId);
+    @GetMapping("/visit/{visitId}")
+    public List<ScoreAuditLogEntity> getLogsByVisitId(@PathVariable Long visitId) {
+        return scoreAuditLogRepository.findByVisitId(visitId);
     }
 }
