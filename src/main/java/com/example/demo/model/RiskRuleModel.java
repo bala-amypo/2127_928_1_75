@@ -1,17 +1,17 @@
 package com.example.demo.model;
 
-import lombok.Builder;
-import lombok.Data;
-
-@Data
-@Builder
 public class RiskRuleModel {
     private Long id;
     private String ruleName;
     private int scoreImpact;
 
-    // Example method if used in service
-    public int getScoreImpact() {
-        return scoreImpact;
-    }
+    // Getters and setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getRuleName() { return ruleName; }
+    public void setRuleName(String ruleName) { this.ruleName = ruleName; }
+
+    public int getScoreImpact() { return scoreImpact; }
+    public void setScoreImpact(int scoreImpact) { this.scoreImpact = scoreImpact; }
 }

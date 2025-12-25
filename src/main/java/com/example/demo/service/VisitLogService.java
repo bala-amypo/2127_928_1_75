@@ -8,10 +8,12 @@ import java.time.LocalDateTime;
 @Service
 public class VisitLogService {
 
+    // Example method to create a visit log
     public VisitLogModel createVisitLog(Long visitorId) {
-        return VisitLogModel.builder()
-                .visitorId(visitorId)
-                .entryTime(LocalDateTime.now())
-                .build();
+        VisitLogModel visitLog = new VisitLogModel();
+        visitLog.setVisitorId(visitorId);
+        visitLog.setEntryTime(LocalDateTime.now());
+
+        return visitLog;
     }
 }

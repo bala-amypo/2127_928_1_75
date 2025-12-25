@@ -1,20 +1,22 @@
 package com.example.demo.service;
 
 import com.example.demo.model.ScoreAuditLogModel;
-import com.example.demo.model.VisitLogModel;
-import org.springframework.stereotype.Service;
+import com.example.demo.model.RiskScoreModel;
 
 import java.time.LocalDateTime;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public class ScoreAuditLogService {
 
-    public ScoreAuditLogModel createAuditLog(VisitLogModel visitLog, int oldScore, int newScore) {
-        return ScoreAuditLogModel.builder()
-                .visitLogId(visitLog.getId())
-                .oldScore(oldScore)
-                .newScore(newScore)
-                .auditTime(LocalDateTime.now())
-                .build();
+    // Example method to create audit log
+    public ScoreAuditLogModel createAuditLog(RiskScoreModel riskScore, String action) {
+        ScoreAuditLogModel auditLog = new ScoreAuditLogModel();
+        auditLog.setRiskScoreId(riskScore.getId());
+        auditLog.setAction(action);
+        auditLog.setTimestamp(LocalDateTime.now());
+
+        return auditLog;
     }
 }

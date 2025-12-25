@@ -3,22 +3,25 @@ package com.example.demo.service;
 import com.example.demo.model.RiskRuleModel;
 import com.example.demo.model.RiskScoreModel;
 import com.example.demo.model.VisitLogModel;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public class RiskScoreService {
 
-    public RiskScoreModel calculateRiskScore(List<RiskRuleModel> rules, VisitLogModel visitLog) {
-        int totalScore = rules.stream()
-                .mapToInt(RiskRuleModel::getScoreImpact) // fixed method reference
-                .sum();
+    // Example method to calculate risk score
+    public RiskScoreModel calculateRiskScore(VisitLogModel visitLog, List<RiskRuleModel> rules) {
+        int totalScore = 0;
+        for (RiskRuleModel rule : rules) {
+            totalScore += rule.getScoreImpact();
+        }
 
-        return RiskScoreModel.builder()
-                .id(visitLog.getId())
-                .visitorId(visitLog.getVisitorId())
-                .totalScore(totalScore)
-                .build();
+        RiskScoreModel riskScore = new RiskScoreModel();
+        riskScore.setVisitLogId(visitLog.getId());
+        riskScore.setScore(totalScore);
+
+        return riskScore;
     }
 }
