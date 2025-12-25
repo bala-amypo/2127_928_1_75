@@ -1,13 +1,22 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.RiskRuleEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.demo.model.RiskRuleModel;
+import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public interface RiskRuleRepository extends JpaRepository<RiskRuleEntity, Long> {
+@Repository
+public class RiskRuleRepository {
 
-    List<RiskRuleEntity> findByActiveTrue();
+    private final List<RiskRuleModel> rules = new ArrayList<>();
 
-    List<RiskRuleEntity> findByRuleTypeAndActiveTrue(String ruleType);
+    public RiskRuleModel save(RiskRuleModel rule) {
+        rules.add(rule);
+        return rule;
+    }
+
+    public List<RiskRuleModel> findAll() {
+        return rules;
+    }
 }

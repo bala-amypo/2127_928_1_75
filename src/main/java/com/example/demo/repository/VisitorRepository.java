@@ -1,13 +1,22 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.VisitorEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.demo.model.VisitorModel;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
-public interface VisitorRepository extends JpaRepository<VisitorEntity, Long> {
+@Repository
+public class VisitorRepository {
 
-    Optional<VisitorEntity> findByPhone(String phone);
+    private final List<VisitorModel> visitors = new ArrayList<>();
 
-    Optional<VisitorEntity> findByEmail(String email);
+    public VisitorModel save(VisitorModel visitor) {
+        visitors.add(visitor);
+        return visitor;
+    }
+
+    public List<VisitorModel> findAll() {
+        return visitors;
+    }
 }
