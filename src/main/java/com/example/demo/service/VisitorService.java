@@ -1,25 +1,22 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.VisitorEntity;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.VisitorRepository;
+import com.example.demo.model.VisitorModel;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class VisitorService {
 
-    private final VisitorRepository visitorRepository;
+    private final List<VisitorModel> visitors = new ArrayList<>();
 
-    public VisitorService(VisitorRepository visitorRepository) {
-        this.visitorRepository = visitorRepository;
+    public VisitorModel create(VisitorModel visitor) {
+        visitors.add(visitor);
+        return visitor;
     }
 
-    public VisitorEntity createVisitor(VisitorEntity visitor) {
-        return visitorRepository.save(visitor);
-    }
-
-    public VisitorEntity getVisitorById(Long id) {
-        return visitorRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Visitor not found"));
+    public List<VisitorModel> getAll() {
+        return visitors;
     }
 }

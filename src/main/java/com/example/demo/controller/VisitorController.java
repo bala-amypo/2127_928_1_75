@@ -17,8 +17,8 @@ public class VisitorController {
     }
 
     @PostMapping
-    public VisitorModel create(@RequestBody VisitorModel model) {
-        return service.create(model);
+    public VisitorModel create(@RequestBody VisitorModel visitor) {
+        return service.create(visitor);
     }
 
     @GetMapping

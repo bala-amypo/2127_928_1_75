@@ -17,8 +17,8 @@ public class RiskRuleController {
     }
 
     @PostMapping
-    public RiskRuleModel create(@RequestBody RiskRuleModel model) {
-        return service.create(model);
+    public RiskRuleModel create(@RequestBody RiskRuleModel rule) {
+        return service.create(rule);
     }
 
     @GetMapping

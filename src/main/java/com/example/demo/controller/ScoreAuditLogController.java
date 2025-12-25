@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.ScoreAuditLogModel;
+import com.example.demo.model.RiskScoreModel;
 import com.example.demo.service.ScoreAuditLogService;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,11 @@ public class ScoreAuditLogController {
 
     public ScoreAuditLogController(ScoreAuditLogService service) {
         this.service = service;
+    }
+
+    @PostMapping
+    public void log(@RequestBody RiskScoreModel riskScore) {
+        service.log(riskScore);
     }
 
     @GetMapping
