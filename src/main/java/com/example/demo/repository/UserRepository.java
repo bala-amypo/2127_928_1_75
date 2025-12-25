@@ -1,11 +1,22 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.UserEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.demo.model.UserModel;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+@Repository
+public class UserRepository {
 
-    Optional<UserEntity> findByUsername(String username);
+    private final Map<String, UserModel> store = new HashMap<>();
+
+    public UserModel save(UserModel user) {
+        store.put(user.getUsername(), user);
+        return user;
+    }
+
+    public UserModel findByUsername(String username) {
+        return store.get(username);
+    }
 }
