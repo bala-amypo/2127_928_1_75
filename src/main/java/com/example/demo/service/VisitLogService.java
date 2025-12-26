@@ -11,4 +11,7 @@ public interface VisitLogService {
     VisitLog getLog(Long id);
 
     List<VisitLog> getLogsByVisitor(Long userId);
+
+    // ✅ REQUIRED BY CONTROLLER
+    VisitLog createVisitLog(Long userId, VisitLog log);
 }
