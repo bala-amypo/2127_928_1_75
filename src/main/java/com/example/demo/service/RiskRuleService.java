@@ -1,7 +1,15 @@
 package com.example.demo.service;
 
+import com.example.demo.model.RiskRule;
+import java.util.List;
+
 public interface RiskRuleService {
-    String getRiskLevel(String key);
-    void setRiskLevel(String key, String level);
-    void deleteRiskRule(String key);
+
+    RiskRule createRule(RiskRule rule);
+
+    RiskRule getRule(Long id);
+
+    List<RiskRule> getAllRules();
+
+    void deleteRule(Long id);
 }
