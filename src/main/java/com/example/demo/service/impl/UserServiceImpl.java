@@ -5,46 +5,53 @@ import com.example.demo.dto.AuthResponse;
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.UserService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtTokenProvider jwtTokenProvider;
 
-    public UserServiceImpl(UserRepository userRepository,
-                           PasswordEncoder passwordEncoder,
-                           JwtTokenProvider jwtTokenProvider) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtTokenProvider = jwtTokenProvider;
     }
 
+    // ---------------- LOGIN ----------------
     @Override
-    public Object login(AuthRequest request) {
-        String token = jwtTokenProvider.createToken(null, request.getEmail(), null);
-        return new AuthResponse(token);
-    }
+    public AuthResponse login(AuthRequest request) {
 
-    @Override
-    public Object register(RegisterRequest request) {
-        Optional<User> existing = userRepository.findByEmail(request.getEmail());
-        if (existing.isPresent()) {
-            return null;
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!user.getPassword().equals(request.getPassword())) {
+            throw new RuntimeException("Invalid password");
         }
 
-        User user = User.builder()
-                .email(request.getEmail())
-                .password(request.getPassword() == null ? null : passwordEncoder.encode(request.getPassword()))
-                .roles(request.getRoles())
-                .build();
+        AuthResponse response = new AuthResponse();
+        response.setMessage("Login successful");
 
-        return userRepository.save(user);
+        return response;
+    }
+
+    // ---------------- REGISTER ----------------
+    @Override
+    public AuthResponse register(RegisterRequest request) {
+
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already exists");
+        }
+
+        User user = new User();
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        user.setRoles(request.getRoles());
+
+        userRepository.save(user);
+
+        AuthResponse response = new AuthResponse();
+        response.setMessage("User registered successfully");
+
+        return response;
     }
 }

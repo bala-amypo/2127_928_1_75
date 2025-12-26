@@ -8,8 +8,6 @@ public class RegisterRequest {
     private String password;
     private Set<String> roles;
 
-    public RegisterRequest() {}
-
     public String getEmail() { return email; }
     public String getPassword() { return password; }
     public Set<String> getRoles() { return roles; }
