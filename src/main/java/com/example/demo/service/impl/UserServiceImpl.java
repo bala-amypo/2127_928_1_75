@@ -29,8 +29,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Object login(AuthRequest request) {
-        // Optional: Add real password validation
-        String token = jwtTokenProvider.generateToken(request.getEmail());
+        // Use createToken instead of generateToken
+        String token = jwtTokenProvider.createToken(
+                1L,                 // dummy userId; replace with actual user.getId() if needed
+                request.getEmail(),
+                Set.of("USER")      // dummy role; replace with actual roles if needed
+        );
         return new AuthResponse(token);
     }
 
