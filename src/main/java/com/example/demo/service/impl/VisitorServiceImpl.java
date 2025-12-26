@@ -3,30 +3,32 @@ package com.example.demo.service.impl;
 import com.example.demo.model.Visitor;
 import com.example.demo.repository.VisitorRepository;
 import com.example.demo.service.VisitorService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class VisitorServiceImpl implements VisitorService {
 
-    private final VisitorRepository repo;
+    private final VisitorRepository repository;
 
-    public VisitorServiceImpl(VisitorRepository repo) {
-        this.repo = repo;
+    public VisitorServiceImpl(VisitorRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public Visitor createVisitor(Visitor visitor) {
-        return repo.save(visitor);
+        return repository.save(visitor);
     }
 
     @Override
     public Visitor getVisitor(Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("not found"));
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Visitor not found"));
     }
 
     @Override
     public List<Visitor> getAllVisitors() {
-        return repo.findAll();
+        return repository.findAll();
     }
 }
