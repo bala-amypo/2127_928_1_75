@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.dto.AuthResponse;
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
@@ -11,25 +12,28 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final UserRepository repo;
+    private final PasswordEncoder encoder;
+    private final JwtTokenProvider jwt;
 
-    public UserServiceImpl(UserRepository userRepository,
-                           PasswordEncoder passwordEncoder,
-                           JwtTokenProvider jwtTokenProvider) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtTokenProvider = jwtTokenProvider;
+    public UserServiceImpl(UserRepository repo,
+                           PasswordEncoder encoder,
+                           JwtTokenProvider jwt) {
+        this.repo = repo;
+        this.encoder = encoder;
+        this.jwt = jwt;
     }
 
     @Override
-    public User register(RegisterRequest request) {
-        User user = User.builder()
-                .username(request.getUsername())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .build();
+    public AuthResponse register(RegisterRequest request) {
 
-        return userRepository.save(user);
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setPassword(encoder.encode(request.getPassword()));
+
+        repo.save(user);
+
+        String token = jwt.generateToken(user.getUsername());
+        return new AuthResponse(token);
     }
 }
