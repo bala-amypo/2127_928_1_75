@@ -3,9 +3,11 @@ package com.example.demo.service.impl;
 import com.example.demo.model.RiskRule;
 import com.example.demo.repository.RiskRuleRepository;
 import com.example.demo.service.RiskRuleService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class RiskRuleServiceImpl implements RiskRuleService {
 
     private final RiskRuleRepository repo;
@@ -17,7 +19,7 @@ public class RiskRuleServiceImpl implements RiskRuleService {
     @Override
     public RiskRule createRule(RiskRule rule) {
         if (rule.getRuleName() == null || rule.getRuleName().isEmpty()) {
-            throw new RuntimeException("Rule name must be unique");
+            throw new RuntimeException("Rule name must be provided");
         }
         return repo.save(rule);
     }
@@ -25,11 +27,17 @@ public class RiskRuleServiceImpl implements RiskRuleService {
     @Override
     public RiskRule getRule(Long id) {
         return repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("not found"));
+                .orElseThrow(() -> new RuntimeException("Rule not found"));
     }
 
     @Override
     public List<RiskRule> getAllRules() {
         return repo.findAll();
+    }
+
+    @Override
+    public Object evaluateRule(Object input) {
+        // Implement your evaluation logic here
+        return null;
     }
 }
