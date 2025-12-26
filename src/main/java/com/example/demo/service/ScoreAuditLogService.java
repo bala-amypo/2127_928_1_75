@@ -6,12 +6,7 @@ import java.util.List;
 
 public interface ScoreAuditLogService {
 
-    ScoreAuditLog save(ScoreAuditLog log);
+    ScoreAuditLog create(Long visitorId, Long scoreId, int scoreChange, String reason);
 
-    ScoreAuditLog getLog(Long id);
-
-    List<ScoreAuditLog> getLogsByVisitor(Long userId);
-
-    // ✅ REQUIRED BY CONTROLLER
-    ScoreAuditLog logScoreChange(Long userId, Long scoreId, ScoreAuditLog log);
+    List<ScoreAuditLog> getByVisitor(Long visitorId);
 }
