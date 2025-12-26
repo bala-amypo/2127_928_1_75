@@ -8,7 +8,12 @@ import org.springframework.stereotype.Service;
 public class RiskScoreServiceImpl implements RiskScoreService {
 
     @Override
-    public RiskScore evaluateVisitor(Long visitorId) {
+    public RiskScore evaluateVisitor(long visitorId) {
         return new RiskScore(null, "LOW", 10);
+    }
+
+    @Override
+    public RiskScore getScoreForVisitor(long visitorId) {
+        return evaluateVisitor(visitorId);
     }
 }
