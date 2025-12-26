@@ -109,7 +109,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>10.11.14</version>
+            <version>15.1</version>
         </dependency>
 
 
