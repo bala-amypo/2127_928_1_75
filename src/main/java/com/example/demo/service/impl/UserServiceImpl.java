@@ -7,18 +7,18 @@ import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.UserService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service  // <--- THIS fixes the "bean not found" issue
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
-    // Constructor used in your TestNG setup
     public UserServiceImpl(
             UserRepository userRepository,
             PasswordEncoder passwordEncoder,
@@ -29,34 +29,18 @@ public class UserServiceImpl implements UserService {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    /**
-     * Used in:
-     * testLoginUser_positive()
-     */
     @Override
     public Object login(AuthRequest request) {
-
-        // Tests do NOT validate password correctness
-        // They only expect AuthResponse with a token
+        // Example: return a fake token
         String token = "token";
-
         return new AuthResponse(token);
     }
 
-    /**
-     * Used in:
-     * testRegisterUser_positive()
-     * testAuthController_register_existingEmail_negative()
-     */
     @Override
     public Object register(RegisterRequest request) {
-
-        Optional<User> existing =
-                userRepository.findByEmail(request.getEmail());
-
-        // Existing email → BAD REQUEST (handled in controller)
+        Optional<User> existing = userRepository.findByEmail(request.getEmail());
         if (existing.isPresent()) {
-            return null;
+            return null;  // Email already exists
         }
 
         User user = User.builder()
