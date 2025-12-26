@@ -1,28 +1,23 @@
 package com.example.demo.service;
 
-import com.example.demo.model.ScoreAuditLogModel;
-import com.example.demo.model.RiskScoreModel;
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import com.example.demo.model.ScoreAuditLogModel;
+import com.example.demo.repository.ScoreAuditLogRepository;
 
 @Service
 public class ScoreAuditLogService {
 
-    private final List<ScoreAuditLogModel> logs = new ArrayList<>();
+    private final ScoreAuditLogRepository scoreAuditLogRepository;
 
-    public void log(RiskScoreModel riskScore) {
-        ScoreAuditLogModel log = new ScoreAuditLogModel();
-        log.setRiskScoreId(riskScore.getId());
-        log.setAction("SCORE_CALCULATED");
-        log.setTimestamp(LocalDateTime.now());
-
-        logs.add(log);
+    public ScoreAuditLogService(ScoreAuditLogRepository scoreAuditLogRepository) {
+        this.scoreAuditLogRepository = scoreAuditLogRepository;
     }
 
-    public List<ScoreAuditLogModel> getAll() {
-        return logs;
+    public ScoreAuditLogModel saveAudit(ScoreAuditLogModel audit) {
+        audit.setCreatedAt(LocalDateTime.now());
+        return scoreAuditLogRepository.save(audit);
     }
 }

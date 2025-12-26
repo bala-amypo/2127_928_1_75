@@ -1,22 +1,20 @@
 package com.example.demo.service;
 
-import com.example.demo.model.RiskRuleModel;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.demo.model.RiskRuleModel;
+import com.example.demo.repository.RiskRuleRepository;
 
 @Service
 public class RiskRuleService {
 
-    private final List<RiskRuleModel> rules = new ArrayList<>();
+    private final RiskRuleRepository riskRuleRepository;
 
-    public RiskRuleModel create(RiskRuleModel rule) {
-        rules.add(rule);
-        return rule;
+    public RiskRuleService(RiskRuleRepository riskRuleRepository) {
+        this.riskRuleRepository = riskRuleRepository;
     }
 
-    public List<RiskRuleModel> getAll() {
-        return rules;
+    public RiskRuleModel createRule(RiskRuleModel rule) {
+        return riskRuleRepository.save(rule);
     }
 }

@@ -1,25 +1,23 @@
 package com.example.demo.service;
 
-import com.example.demo.model.RiskRuleModel;
-import com.example.demo.model.RiskScoreModel;
-import com.example.demo.model.VisitLogModel;
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.example.demo.model.RiskScoreModel;
+import com.example.demo.repository.RiskScoreRepository;
 
 @Service
 public class RiskScoreService {
 
-    public RiskScoreModel calculateRiskScore(
-            VisitLogModel visitLog,
-            List<RiskRuleModel> rules) {
+    private final RiskScoreRepository riskScoreRepository;
 
-        int total = rules.stream().mapToInt(RiskRuleModel::getScore).sum();
+    public RiskScoreService(RiskScoreRepository riskScoreRepository) {
+        this.riskScoreRepository = riskScoreRepository;
+    }
 
-        RiskScoreModel score = new RiskScoreModel();
-        score.setVisitLogId(visitLog.getId());
-        score.setScore(total);
-
-        return score;
+    public RiskScoreModel saveScore(RiskScoreModel score) {
+        score.setCalculatedAt(LocalDateTime.now());
+        return riskScoreRepository.save(score);
     }
 }
