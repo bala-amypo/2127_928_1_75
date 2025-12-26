@@ -33,6 +33,12 @@
     <!-- DEPENDENCIES -->
     <!-- ===================== -->
     <dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.1.1</version>
+        </dependency>
+
 
         <!-- Spring Boot Core -->
         <dependency>
