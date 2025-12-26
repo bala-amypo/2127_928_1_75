@@ -23,12 +23,18 @@ public class RiskRuleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RiskRule> getById(@PathVariable Long id) {
+    public ResponseEntity<RiskRule> get(@PathVariable Long id) {
         return ResponseEntity.ok(riskRuleService.getRule(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<RiskRule>> getAll() {
+    public ResponseEntity<List<RiskRule>> all() {
         return ResponseEntity.ok(riskRuleService.getAllRules());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        riskRuleService.deleteRule(id);
+        return ResponseEntity.noContent().build();
     }
 }
