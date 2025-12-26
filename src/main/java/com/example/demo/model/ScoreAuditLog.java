@@ -8,14 +8,12 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RiskRule {
+public class ScoreAuditLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String ruleName;
-    private String ruleType;
-    private Integer scoreImpact;
-    private Integer threshold;
+    private Integer scoreChange;
+    private String reason;
 }

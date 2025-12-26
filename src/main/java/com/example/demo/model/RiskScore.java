@@ -8,14 +8,15 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RiskRule {
+public class RiskScore {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String ruleName;
-    private String ruleType;
-    private Integer scoreImpact;
-    private Integer threshold;
+    private Integer totalScore;
+    private String riskLevel;
+
+    @OneToOne
+    private Visitor visitor;
 }
