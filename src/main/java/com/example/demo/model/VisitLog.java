@@ -20,12 +20,12 @@ public class VisitLog {
 
     private String purpose;
 
-    private LocalDateTime entryTime;
+    private LocalDateTime visitedAt;
 
     @PrePersist
     public void prePersist() {
-        if (entryTime == null) {
-            entryTime = LocalDateTime.now();
+        if (visitedAt == null) {
+            visitedAt = LocalDateTime.now();
         }
     }
 }
