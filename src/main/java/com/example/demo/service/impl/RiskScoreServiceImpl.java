@@ -9,7 +9,8 @@ public class RiskScoreServiceImpl implements RiskScoreService {
 
     @Override
     public RiskScore evaluateVisitor(long visitorId) {
-        return new RiskScore("LOW", 10);
+        // id is null because JPA will generate it
+        return new RiskScore(null, "LOW", 10);
     }
 
     @Override

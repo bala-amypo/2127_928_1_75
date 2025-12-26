@@ -3,6 +3,8 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @Builder
@@ -16,7 +18,11 @@ public class ScoreAuditLog {
 
     private Long visitorId;
 
+    private Long scoreId;
+
     private int scoreChange;
 
     private String reason;
+
+    private LocalDateTime createdAt;
 }
