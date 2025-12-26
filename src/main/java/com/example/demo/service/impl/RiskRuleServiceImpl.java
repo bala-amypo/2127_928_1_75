@@ -1,43 +1,34 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.RiskRule;
-import com.example.demo.repository.RiskRuleRepository;
-import com.example.demo.service.RiskRuleService;
+import com.example.demo.model.RiskScoreModel;
+import com.example.demo.repository.RiskScoreRepository;
+import com.example.demo.service.RiskScoreService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class RiskRuleServiceImpl implements RiskRuleService {
+public class RiskScoreServiceImpl implements RiskScoreService {
 
-    private final RiskRuleRepository repo;
+    private final RiskScoreRepository repo;
 
-    public RiskRuleServiceImpl(RiskRuleRepository repo) {
+    public RiskScoreServiceImpl(RiskScoreRepository repo) {
         this.repo = repo;
     }
 
     @Override
-    public RiskRule createRule(RiskRule rule) {
-        if (rule.getRuleName() == null || rule.getRuleName().isEmpty()) {
-            throw new RuntimeException("Rule name must be unique");
-        }
-        return repo.save(rule);
+    public RiskScoreModel createScore(RiskScoreModel score) {
+        return repo.save(score);
     }
 
     @Override
-    public RiskRule getRule(Long id) {
+    public RiskScoreModel getScore(Long id) {
         return repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Rule not found"));
+                .orElseThrow(() -> new RuntimeException("Score not found"));
     }
 
     @Override
-    public List<RiskRule> getAllRules() {
+    public List<RiskScoreModel> getAllScores() {
         return repo.findAll();
-    }
-
-    @Override
-    public Object evaluateRule(String input) {
-        // Optional logic for evaluation
-        return "Evaluated result for input: " + input;
     }
 }
