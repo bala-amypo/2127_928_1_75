@@ -1,3 +1,12 @@
+package com.example.demo.service.impl;
+
+import com.example.demo.model.RiskRule;
+import com.example.demo.repository.RiskRuleRepository;
+import com.example.demo.service.RiskRuleService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 @Service
 public class RiskRuleServiceImpl implements RiskRuleService {
 
@@ -15,7 +24,7 @@ public class RiskRuleServiceImpl implements RiskRuleService {
     @Override
     public RiskRule getRule(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Rule not found"));
+                .orElseThrow(() -> new RuntimeException("Risk rule not found"));
     }
 
     @Override
