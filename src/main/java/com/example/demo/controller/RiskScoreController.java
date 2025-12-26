@@ -1,22 +1,36 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.RiskScore;
+import com.example.demo.service.RiskScoreService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.model.RiskScoreModel;
-import com.example.demo.service.RiskScoreService;
+import java.util.List;
 
+@Tag(name = "RiskScore")
 @RestController
-@RequestMapping("/api/risk-scores")
+@RequestMapping("/risk-scores")
 public class RiskScoreController {
 
-    private final RiskScoreService riskScoreService;
+    private final RiskScoreService service;
 
-    public RiskScoreController(RiskScoreService riskScoreService) {
-        this.riskScoreService = riskScoreService;
+    public RiskScoreController(RiskScoreService service) {
+        this.service = service;
     }
 
-    @PostMapping
-    public RiskScoreModel saveScore(@RequestBody RiskScoreModel score) {
-        return riskScoreService.saveScore(score);
+    @PostMapping("/evaluate/{visitorId}")
+    public ResponseEntity<RiskScore> evaluate(@PathVariable Long visitorId) {
+        return ResponseEntity.ok(service.evaluateVisitor(visitorId));
+    }
+
+    @GetMapping("/{visitorId}")
+    public ResponseEntity<RiskScore> get(@PathVariable Long visitorId) {
+        return ResponseEntity.ok(service.getScoreForVisitor(visitorId));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<RiskScore>> all() {
+        return ResponseEntity.ok(service.getAllScores());
     }
 }
