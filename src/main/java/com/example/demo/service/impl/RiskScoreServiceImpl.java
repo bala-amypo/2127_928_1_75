@@ -1,33 +1,32 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.RiskScore;
+import com.example.demo.model.RiskScoreModel;
+import com.example.demo.repository.RiskScoreRepository;
 import com.example.demo.service.RiskScoreService;
-import com.example.demo.util.RiskLevelUtils;
-
-import java.util.Collections;
+import org.springframework.stereotype.Service;
 import java.util.List;
 
+@Service
 public class RiskScoreServiceImpl implements RiskScoreService {
 
-    @Override
-    public RiskScore evaluateVisitor(Long visitorId) {
-        int score = 0;
-        return RiskScore.builder()
-                .totalScore(score)
-                .riskLevel(RiskLevelUtils.determineRiskLevel(score))
-                .build();
+    private final RiskScoreRepository repo;
+
+    public RiskScoreServiceImpl(RiskScoreRepository repo) {
+        this.repo = repo;
     }
 
     @Override
-    public RiskScore getScoreForVisitor(Long visitorId) {
-        return RiskScore.builder()
-                .totalScore(0)
-                .riskLevel("LOW")
-                .build();
+    public RiskScoreModel createScore(RiskScoreModel score) {
+        return repo.save(score);
     }
 
     @Override
-    public List<RiskScore> getAllScores() {
-        return Collections.emptyList();
+    public RiskScoreModel getScore(Long id) {
+        return repo.findById(id).orElseThrow(() -> new RuntimeException("Score not found"));
+    }
+
+    @Override
+    public List<RiskScoreModel> getAllScores() {
+        return repo.findAll();
     }
 }

@@ -1,22 +1,19 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
 import lombok.*;
+import javax.persistence.*;
 
 @Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RiskScore {
+public class RiskScoreModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private Visitor visitor;
-
-    private Integer totalScore;
-    private String riskLevel;
+    private String scoreName;
+    private Integer value;
 }

@@ -5,9 +5,9 @@ import lombok.*;
 
 @Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ScoreAuditLog {
 
     @Id
