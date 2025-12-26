@@ -27,11 +27,9 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         Object result = userService.register(request);
-
         if (result == null) {
             return ResponseEntity.badRequest().body("Email already exists");
         }
-
         return ResponseEntity.ok(result);
     }
 }

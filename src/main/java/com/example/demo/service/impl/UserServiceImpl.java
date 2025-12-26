@@ -12,18 +12,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service  // <--- THIS fixes the "bean not found" issue
+@Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public UserServiceImpl(
-            UserRepository userRepository,
-            PasswordEncoder passwordEncoder,
-            JwtTokenProvider jwtTokenProvider
-    ) {
+    public UserServiceImpl(UserRepository userRepository,
+                           PasswordEncoder passwordEncoder,
+                           JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -31,8 +29,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Object login(AuthRequest request) {
-        // Example: return a fake token
-        String token = "token";
+        // Optional: Add real password validation
+        String token = jwtTokenProvider.generateToken(request.getEmail());
         return new AuthResponse(token);
     }
 
@@ -40,16 +38,12 @@ public class UserServiceImpl implements UserService {
     public Object register(RegisterRequest request) {
         Optional<User> existing = userRepository.findByEmail(request.getEmail());
         if (existing.isPresent()) {
-            return null;  // Email already exists
+            return null; // Email already exists
         }
 
         User user = User.builder()
                 .email(request.getEmail())
-                .password(
-                        request.getPassword() == null
-                                ? null
-                                : passwordEncoder.encode(request.getPassword())
-                )
+                .password(request.getPassword() == null ? null : passwordEncoder.encode(request.getPassword()))
                 .roles(request.getRoles())
                 .build();
 
