@@ -1,23 +1,10 @@
 package com.example.demo.service;
 
-import java.time.LocalDateTime;
+import com.example.demo.model.Visitor;
+import java.util.List;
 
-import org.springframework.stereotype.Service;
-
-import com.example.demo.model.VisitorModel;
-import com.example.demo.repository.VisitorRepository;
-
-@Service
-public class VisitorService {
-
-    private final VisitorRepository visitorRepository;
-
-    public VisitorService(VisitorRepository visitorRepository) {
-        this.visitorRepository = visitorRepository;
-    }
-
-    public VisitorModel createVisitor(VisitorModel visitor) {
-        visitor.setCreatedAt(LocalDateTime.now());
-        return visitorRepository.save(visitor);
-    }
+public interface VisitorService {
+    Visitor createVisitor(Visitor v);
+    Visitor getVisitor(Long id);
+    List<Visitor> getAllVisitors();
 }

@@ -1,23 +1,10 @@
 package com.example.demo.service;
 
-import java.time.LocalDateTime;
+import com.example.demo.model.RiskScore;
+import java.util.List;
 
-import org.springframework.stereotype.Service;
-
-import com.example.demo.model.RiskScoreModel;
-import com.example.demo.repository.RiskScoreRepository;
-
-@Service
-public class RiskScoreService {
-
-    private final RiskScoreRepository riskScoreRepository;
-
-    public RiskScoreService(RiskScoreRepository riskScoreRepository) {
-        this.riskScoreRepository = riskScoreRepository;
-    }
-
-    public RiskScoreModel saveScore(RiskScoreModel score) {
-        score.setCalculatedAt(LocalDateTime.now());
-        return riskScoreRepository.save(score);
-    }
+public interface RiskScoreService {
+    RiskScore evaluateVisitor(Long visitorId);
+    RiskScore getScoreForVisitor(Long visitorId);
+    List<RiskScore> getAllScores();
 }

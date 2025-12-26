@@ -1,20 +1,10 @@
 package com.example.demo.service;
 
-import org.springframework.stereotype.Service;
+import com.example.demo.model.RiskRule;
+import java.util.List;
 
-import com.example.demo.model.RiskRuleModel;
-import com.example.demo.repository.RiskRuleRepository;
-
-@Service
-public class RiskRuleService {
-
-    private final RiskRuleRepository riskRuleRepository;
-
-    public RiskRuleService(RiskRuleRepository riskRuleRepository) {
-        this.riskRuleRepository = riskRuleRepository;
-    }
-
-    public RiskRuleModel createRule(RiskRuleModel rule) {
-        return riskRuleRepository.save(rule);
-    }
+public interface RiskRuleService {
+    RiskRule createRule(RiskRule rule);
+    RiskRule getRule(Long id);
+    List<RiskRule> getAllRules();
 }

@@ -1,23 +1,10 @@
 package com.example.demo.service;
 
-import java.time.LocalDateTime;
+import com.example.demo.model.ScoreAuditLog;
+import java.util.List;
 
-import org.springframework.stereotype.Service;
-
-import com.example.demo.model.ScoreAuditLogModel;
-import com.example.demo.repository.ScoreAuditLogRepository;
-
-@Service
-public class ScoreAuditLogService {
-
-    private final ScoreAuditLogRepository scoreAuditLogRepository;
-
-    public ScoreAuditLogService(ScoreAuditLogRepository scoreAuditLogRepository) {
-        this.scoreAuditLogRepository = scoreAuditLogRepository;
-    }
-
-    public ScoreAuditLogModel saveAudit(ScoreAuditLogModel audit) {
-        audit.setCreatedAt(LocalDateTime.now());
-        return scoreAuditLogRepository.save(audit);
-    }
+public interface ScoreAuditLogService {
+    ScoreAuditLog logScoreChange(Long visitorId, Long ruleId, ScoreAuditLog log);
+    ScoreAuditLog getLog(Long id);
+    List<ScoreAuditLog> getLogsByVisitor(Long visitorId);
 }
