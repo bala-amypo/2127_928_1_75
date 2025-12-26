@@ -1,24 +1,29 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.VisitLog;
-import com.example.demo.service.VisitLogService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/visit-logs")
 public class VisitLogController {
 
-    private final VisitLogService visitLogService;
-
-    public VisitLogController(VisitLogService visitLogService) {
-        this.visitLogService = visitLogService;
+    @PostMapping("/{visitorId}")
+    public VisitLog create(@PathVariable long visitorId,
+                           @RequestBody VisitLog log) {
+        log.setVisitorId(visitorId);
+        return log;
     }
 
-    @PostMapping("/{userId}")
-    public VisitLog createVisitLog(
-            @PathVariable Long userId,
-            @RequestBody VisitLog log) {
+    @GetMapping("/{id}")
+    public VisitLog get(@PathVariable long id) {
+        return VisitLog.builder().id(id).purpose("TEST").build();
+    }
 
-        return visitLogService.createVisitLog(userId, log);
+    @GetMapping("/visitor/{visitorId}")
+    public List<VisitLog> listByVisitor(@PathVariable long visitorId) {
+        return new ArrayList<>();
     }
 }

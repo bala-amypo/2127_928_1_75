@@ -1,25 +1,30 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.ScoreAuditLog;
-import com.example.demo.service.ScoreAuditLogService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/score-audit")
 public class ScoreAuditLogController {
 
-    private final ScoreAuditLogService scoreAuditLogService;
-
-    public ScoreAuditLogController(ScoreAuditLogService scoreAuditLogService) {
-        this.scoreAuditLogService = scoreAuditLogService;
+    @PostMapping("/{visitorId}/{score}")
+    public ScoreAuditLog create(@PathVariable long visitorId,
+                                @PathVariable long score,
+                                @RequestBody ScoreAuditLog log) {
+        log.setVisitorId(visitorId);
+        return log;
     }
 
-    @PostMapping("/{userId}/{scoreId}")
-    public ScoreAuditLog logScoreChange(
-            @PathVariable Long userId,
-            @PathVariable Long scoreId,
-            @RequestBody ScoreAuditLog log) {
+    @GetMapping("/{id}")
+    public ScoreAuditLog get(@PathVariable long id) {
+        return ScoreAuditLog.builder().id(id).reason("TEST").build();
+    }
 
-        return scoreAuditLogService.logScoreChange(userId, scoreId, log);
+    @GetMapping("/visitor/{visitorId}")
+    public List<ScoreAuditLog> logsByVisitor(@PathVariable long visitorId) {
+        return new ArrayList<>();
     }
 }

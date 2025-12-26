@@ -5,15 +5,16 @@ import lombok.*;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class RiskRule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String ruleName;
-    private String description;
+    private String ruleType;
+
+    private int threshold;
 }

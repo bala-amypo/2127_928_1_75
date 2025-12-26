@@ -1,54 +1,31 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "visit_log")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class VisitLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 🔹 reference to user
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private Long visitorId;
 
-    @Column(name = "page")
-    private String page;
+    private String purpose;
 
-    @Column(name = "visited_at")
-    private LocalDateTime visitedAt;
+    private LocalDateTime entryTime;
 
-    // ---------- getters & setters ----------
-
-    public Long getId() {
-        return id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getPage() {
-        return page;
-    }
-
-    public void setPage(String page) {
-        this.page = page;
-    }
-
-    public LocalDateTime getVisitedAt() {
-        return visitedAt;
-    }
-
-    public void setVisitedAt(LocalDateTime visitedAt) {
-        this.visitedAt = visitedAt;
+    @PrePersist
+    public void prePersist() {
+        if (entryTime == null) {
+            entryTime = LocalDateTime.now();
+        }
     }
 }
