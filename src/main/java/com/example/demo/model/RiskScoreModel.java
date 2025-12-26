@@ -1,17 +1,43 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "risk_scores")
 public class RiskScoreModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Long visitLogId;
-    private int score;
+    private Integer score;
+    private LocalDateTime calculatedAt;
 
-    // getters & setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getVisitLogId() {
+        return visitLogId;
+    }
+
+    public void setVisitLogId(Long visitLogId) {
+        this.visitLogId = visitLogId;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
+    public LocalDateTime getCalculatedAt() {
+        return calculatedAt;
+    }
+
+    public void setCalculatedAt(LocalDateTime calculatedAt) {
+        this.calculatedAt = calculatedAt;
+    }
 }

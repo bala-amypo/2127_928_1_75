@@ -1,19 +1,43 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "score_audit_logs")
 public class ScoreAuditLogModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Long riskScoreId;
-    private String action;
-    private LocalDateTime timestamp;
+    private String message;
+    private LocalDateTime createdAt;
 
-    // getters & setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getRiskScoreId() {
+        return riskScoreId;
+    }
+
+    public void setRiskScoreId(Long riskScoreId) {
+        this.riskScoreId = riskScoreId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }
