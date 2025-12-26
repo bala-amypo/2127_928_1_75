@@ -1,14 +1,10 @@
 package com.example.demo.model;
 
-import lombok.*;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "users")
 public class User {
 
     @Id
@@ -20,4 +16,16 @@ public class User {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> roles;
+
+    public User() {}
+
+    public Long getId() { return id; }
+    public String getEmail() { return email; }
+    public String getPassword() { return password; }
+    public Set<String> getRoles() { return roles; }
+
+    public void setId(Long id) { this.id = id; }
+    public void setEmail(String email) { this.email = email; }
+    public void setPassword(String password) { this.password = password; }
+    public void setRoles(Set<String> roles) { this.roles = roles; }
 }
