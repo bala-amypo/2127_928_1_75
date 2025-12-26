@@ -22,8 +22,13 @@ public class ScoreAuditLogServiceImpl implements ScoreAuditLogService {
     }
 
     @Override
+    public ScoreAuditLog getLog(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("ScoreAuditLog not found with id " + id));
+    }
+
+    @Override
     public List<ScoreAuditLog> getLogsByVisitor(Long userId) {
-        // ✅ FIX IS HERE
         return repo.findByUser_Id(userId);
     }
 }

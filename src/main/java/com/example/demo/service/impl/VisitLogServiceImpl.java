@@ -22,8 +22,13 @@ public class VisitLogServiceImpl implements VisitLogService {
     }
 
     @Override
+    public VisitLog getLog(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("VisitLog not found with id " + id));
+    }
+
+    @Override
     public List<VisitLog> getLogsByVisitor(Long userId) {
-        // ✅ FIX IS HERE
         return repo.findByUser_Id(userId);
     }
 }
