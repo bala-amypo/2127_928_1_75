@@ -1,37 +1,29 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.RiskScore;
-import com.example.demo.model.Visitor;
-import com.example.demo.repository.RiskScoreRepository;
-import com.example.demo.repository.VisitorRepository;
+import com.example.demo.model.RiskRule;
 import com.example.demo.service.RiskScoreService;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
 
 @Service
 public class RiskScoreServiceImpl implements RiskScoreService {
 
-    private final RiskScoreRepository repo;
-    private final VisitorRepository visitorRepo;
-
-    public RiskScoreServiceImpl(RiskScoreRepository repo, VisitorRepository visitorRepo) {
-        this.repo = repo;
-        this.visitorRepo = visitorRepo;
-    }
-
     @Override
-    public RiskScore evaluateVisitor(Long visitorId) {
-        return RiskScore.builder().id(visitorId).totalScore(0).riskLevel("LOW").build();
-    }
+    public RiskScore calculateRiskScore(List<RiskRule> rules) {
+        int total = 0;
+        for (RiskRule rule : rules) {
+            total += rule.getScore();  // assuming RiskRule has getScore()
+        }
 
-    @Override
-    public RiskScore getScoreForVisitor(Long visitorId) {
-        return RiskScore.builder().id(visitorId).totalScore(0).riskLevel("LOW").build();
-    }
+        // Build RiskScore object using builder
+        RiskScore score = RiskScore.builder()
+                .totalScore(total)          // must match field name in RiskScore
+                .ruleName("Aggregated Score")
+                .userId(1L)                 // example userId, change as needed
+                .build();
 
-    @Override
-    public List<RiskScore> getAllScores() {
-        return Collections.emptyList();
+        return score;
     }
 }

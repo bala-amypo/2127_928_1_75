@@ -1,13 +1,10 @@
 package com.example.demo.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class RiskRule {
     private Long id;
     private String ruleName;
+    private int score;  // needed for RiskScore calculation
 }
