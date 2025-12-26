@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class VisitLog {
@@ -16,8 +17,6 @@ public class VisitLog {
     private Long id;
 
     private Long visitorId;
-
     private String purpose;
-
     private LocalDateTime visitedAt;
 }

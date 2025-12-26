@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.dto.AuthRequest;
 import com.example.demo.dto.AuthResponse;
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.model.User;
@@ -33,7 +34,21 @@ public class UserServiceImpl implements UserService {
 
         repo.save(user);
 
-        String token = jwt.generateToken(user.getUsername());
+        String token = jwt.createToken(user.getUsername());
+        return new AuthResponse(token);
+    }
+
+    @Override
+    public AuthResponse login(AuthRequest request) {
+
+        User user = repo.findByUsername(request.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!encoder.matches(request.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Invalid credentials");
+        }
+
+        String token = jwt.createToken(user.getUsername());
         return new AuthResponse(token);
     }
 }
