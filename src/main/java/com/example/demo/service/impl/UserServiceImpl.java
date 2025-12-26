@@ -9,9 +9,7 @@ import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
-import java.util.Set;  // <-- Add this import
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -30,12 +28,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Object login(AuthRequest request) {
-        // Use createToken instead of generateToken
-        String token = jwtTokenProvider.createToken(
-                1L,                 // dummy userId; replace with actual user.getId() if needed
-                request.getEmail(),
-                Set.of("USER")      // dummy role; replace with actual roles if needed
-        );
+        String token = jwtTokenProvider.createToken(null, request.getEmail(), null);
         return new AuthResponse(token);
     }
 
@@ -43,7 +36,7 @@ public class UserServiceImpl implements UserService {
     public Object register(RegisterRequest request) {
         Optional<User> existing = userRepository.findByEmail(request.getEmail());
         if (existing.isPresent()) {
-            return null; // Email already exists
+            return null;
         }
 
         User user = User.builder()
