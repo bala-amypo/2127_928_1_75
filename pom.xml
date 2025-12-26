@@ -125,12 +125,12 @@
             </exclusions>
         </dependency>
 
-        <!-- H2 (optional, safe for JPA) -->
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+                <version>8.1.1</version>
         </dependency>
+
 
     </dependencies>
 
