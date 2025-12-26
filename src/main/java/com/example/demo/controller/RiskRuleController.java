@@ -1,28 +1,22 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.RiskRuleModel;
-import com.example.demo.service.RiskRuleService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.example.demo.model.RiskRuleModel;
+import com.example.demo.service.RiskRuleService;
 
 @RestController
-@RequestMapping("/risk-rules")
+@RequestMapping("/api/risk-rules")
 public class RiskRuleController {
 
-    private final RiskRuleService service;
+    private final RiskRuleService riskRuleService;
 
-    public RiskRuleController(RiskRuleService service) {
-        this.service = service;
+    public RiskRuleController(RiskRuleService riskRuleService) {
+        this.riskRuleService = riskRuleService;
     }
 
     @PostMapping
-    public RiskRuleModel create(@RequestBody RiskRuleModel rule) {
-        return service.create(rule);
-    }
-
-    @GetMapping
-    public List<RiskRuleModel> getAll() {
-        return service.getAll();
+    public RiskRuleModel createRule(@RequestBody RiskRuleModel rule) {
+        return riskRuleService.createRule(rule);
     }
 }

@@ -1,29 +1,22 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.ScoreAuditLogModel;
-import com.example.demo.model.RiskScoreModel;
-import com.example.demo.service.ScoreAuditLogService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.example.demo.model.ScoreAuditLogModel;
+import com.example.demo.service.ScoreAuditLogService;
 
 @RestController
-@RequestMapping("/audit-logs")
+@RequestMapping("/api/score-audit")
 public class ScoreAuditLogController {
 
-    private final ScoreAuditLogService service;
+    private final ScoreAuditLogService scoreAuditLogService;
 
-    public ScoreAuditLogController(ScoreAuditLogService service) {
-        this.service = service;
+    public ScoreAuditLogController(ScoreAuditLogService scoreAuditLogService) {
+        this.scoreAuditLogService = scoreAuditLogService;
     }
 
     @PostMapping
-    public void log(@RequestBody RiskScoreModel riskScore) {
-        service.log(riskScore);
-    }
-
-    @GetMapping
-    public List<ScoreAuditLogModel> getAll() {
-        return service.getAll();
+    public ScoreAuditLogModel saveAudit(@RequestBody ScoreAuditLogModel audit) {
+        return scoreAuditLogService.saveAudit(audit);
     }
 }

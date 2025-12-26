@@ -1,29 +1,22 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.VisitorModel;
-import com.example.demo.service.VisitorService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.example.demo.model.VisitorModel;
+import com.example.demo.service.VisitorService;
 
 @RestController
-@RequestMapping("/visitors")
+@RequestMapping("/api/visitors")
 public class VisitorController {
 
-    private final VisitorService service;
+    private final VisitorService visitorService;
 
-    public VisitorController(VisitorService service) {
-        this.service = service;
+    public VisitorController(VisitorService visitorService) {
+        this.visitorService = visitorService;
     }
 
     @PostMapping
-    public VisitorModel create(@RequestBody VisitorModel visitor) {
-        visitor.setId(null);
-        return service.createVisitor(visitor);
-    }
-
-    @GetMapping
-    public List<VisitorModel> getAll() {
-        return service.getAllVisitors();
+    public VisitorModel createVisitor(@RequestBody VisitorModel visitor) {
+        return visitorService.createVisitor(visitor);
     }
 }
