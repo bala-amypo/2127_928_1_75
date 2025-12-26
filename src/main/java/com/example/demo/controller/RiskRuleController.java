@@ -33,4 +33,9 @@ public class RiskRuleController {
     public ResponseEntity<List<RiskRule>> all() {
         return ResponseEntity.ok(riskRuleService.getAllRules());
     }
+
+    @GetMapping("/evaluate")
+    public ResponseEntity<Object> evaluate(@RequestParam String input) {
+        return ResponseEntity.ok(riskRuleService.evaluateRule(input));
+    }
 }

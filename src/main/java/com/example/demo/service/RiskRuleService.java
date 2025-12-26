@@ -1,6 +1,18 @@
 package com.example.demo.service;
 
+import com.example.demo.model.RiskRule;
+import java.util.List;
+
 public interface RiskRuleService {
-    // define service methods here, e.g.
-    Object evaluateRule(Object input);
+
+    RiskRule createRule(RiskRule rule);
+
+    RiskRule getRule(Long id);
+
+    List<RiskRule> getAllRules();
+    
+    // Optional evaluation method
+    default Object evaluateRule(String input) {
+        return null;
+    }
 }

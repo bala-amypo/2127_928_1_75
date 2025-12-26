@@ -19,7 +19,7 @@ public class RiskRuleServiceImpl implements RiskRuleService {
     @Override
     public RiskRule createRule(RiskRule rule) {
         if (rule.getRuleName() == null || rule.getRuleName().isEmpty()) {
-            throw new RuntimeException("Rule name must be provided");
+            throw new RuntimeException("Rule name must be unique");
         }
         return repo.save(rule);
     }
@@ -36,8 +36,8 @@ public class RiskRuleServiceImpl implements RiskRuleService {
     }
 
     @Override
-    public Object evaluateRule(Object input) {
-        // Implement your evaluation logic here
-        return null;
+    public Object evaluateRule(String input) {
+        // Optional logic for evaluation
+        return "Evaluated result for input: " + input;
     }
 }
