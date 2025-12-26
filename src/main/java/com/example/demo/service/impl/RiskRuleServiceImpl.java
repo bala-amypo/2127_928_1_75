@@ -1,34 +1,33 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.RiskScoreModel;
-import com.example.demo.repository.RiskScoreRepository;
-import com.example.demo.service.RiskScoreService;
+import com.example.demo.model.RiskRule;
+import com.example.demo.repository.RiskRuleRepository;
+import com.example.demo.service.RiskRuleService;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
-public class RiskScoreServiceImpl implements RiskScoreService {
+public class RiskRuleServiceImpl implements RiskRuleService {
 
-    private final RiskScoreRepository repo;
+    private final RiskRuleRepository repo;
 
-    public RiskScoreServiceImpl(RiskScoreRepository repo) {
+    public RiskRuleServiceImpl(RiskRuleRepository repo) {
         this.repo = repo;
     }
 
     @Override
-    public RiskScoreModel createScore(RiskScoreModel score) {
-        return repo.save(score);
+    public RiskRule createRule(RiskRule rule) {
+        return repo.save(rule);
     }
 
     @Override
-    public RiskScoreModel getScore(Long id) {
+    public RiskRule getRule(Long id) {
         return repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Score not found"));
+                .orElseThrow(() -> new RuntimeException("Rule not found"));
     }
 
     @Override
-    public List<RiskScoreModel> getAllScores() {
+    public List<RiskRule> getAllRules() {
         return repo.findAll();
     }
 }

@@ -3,10 +3,10 @@ package com.example.demo.service.impl;
 import com.example.demo.model.ScoreAuditLog;
 import com.example.demo.repository.ScoreAuditLogRepository;
 import com.example.demo.service.ScoreAuditLogService;
-
-import java.util.Collections;
+import org.springframework.stereotype.Service;
 import java.util.List;
 
+@Service
 public class ScoreAuditLogServiceImpl implements ScoreAuditLogService {
 
     private final ScoreAuditLogRepository repo;
@@ -16,24 +16,12 @@ public class ScoreAuditLogServiceImpl implements ScoreAuditLogService {
     }
 
     @Override
-    public ScoreAuditLog logScoreChange(Long visitorId, Long ruleId, ScoreAuditLog log) {
-        if (log.getReason() == null || log.getReason().isEmpty()) {
-            throw new IllegalArgumentException("reason required");
-        }
-        if (log.getScoreChange() < 0) {
-            throw new IllegalArgumentException("scoreChange must be >= 0");
-        }
+    public ScoreAuditLog save(ScoreAuditLog log) {
         return repo.save(log);
     }
 
     @Override
-    public ScoreAuditLog getLog(Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("not found"));
-    }
-
-    @Override
-    public List<ScoreAuditLog> getLogsByVisitor(Long visitorId) {
-        return Collections.emptyList();
+    public List<ScoreAuditLog> findAll() {
+        return repo.findAll();
     }
 }
