@@ -7,11 +7,9 @@ import java.util.Map;
 @Service
 public class RiskRuleServiceImpl implements RiskRuleService {
 
-    // Example in-memory risk rules map
     private final Map<String, String> riskRules = new HashMap<>();
 
     public RiskRuleServiceImpl() {
-        // Initialize some sample rules
         riskRules.put("visitor1", "LOW");
         riskRules.put("visitor2", "MEDIUM");
         riskRules.put("visitor3", "HIGH");
@@ -20,15 +18,15 @@ public class RiskRuleServiceImpl implements RiskRuleService {
 
     @Override
     public String getRiskLevel(String key) {
-        return riskRules.getOrDefault(key, "LOW"); // Default to LOW if key not found
+        return riskRules.getOrDefault(key, "LOW");
     }
 
-    // Example method to add/update a rule
+    @Override
     public void setRiskLevel(String key, String level) {
         riskRules.put(key, level);
     }
 
-    // Example method to delete a rule
+    @Override
     public void deleteRiskRule(String key) {
         riskRules.remove(key);
     }

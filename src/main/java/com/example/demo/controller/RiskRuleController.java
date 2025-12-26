@@ -1,33 +1,36 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.RiskRule;
 import com.example.demo.service.RiskRuleService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/risk-rules")
 public class RiskRuleController {
 
-    private final RiskRuleService service;
+    private final RiskRuleService riskRuleService;
 
-    public RiskRuleController(RiskRuleService service) {
-        this.service = service;
+    public RiskRuleController(RiskRuleService riskRuleService) {
+        this.riskRuleService = riskRuleService;
     }
 
-    @PostMapping
-    public ResponseEntity<RiskRule> create(@RequestBody RiskRule rule) {
-        return ResponseEntity.ok(service.createRule(rule));
+    @GetMapping("/{key}")
+    public ResponseEntity<String> getRiskLevel(@PathVariable String key) {
+        return ResponseEntity.ok(riskRuleService.getRiskLevel(key));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<RiskRule> get(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getRule(id));
+    @PutMapping("/{key}")
+    public ResponseEntity<String> updateRiskLevel(@PathVariable String key,
+                                                  @RequestParam String level) {
+        riskRuleService.setRiskLevel(key, level);
+        return ResponseEntity.ok("Risk level updated for key: " + key);
     }
 
-    @GetMapping
-    public ResponseEntity<List<RiskRule>> all() {
-        return ResponseEntity.ok(service.getAllRules());
+    @DeleteMapping("/{key}")
+    public ResponseEntity<String> deleteRiskLevel(@PathVariable String key) {
+        riskRuleService.deleteRiskRule(key);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                             .body("Risk rule deleted for key: " + key);
     }
 }
