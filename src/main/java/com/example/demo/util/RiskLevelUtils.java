@@ -1,17 +1,11 @@
 package com.example.demo.util;
 
-public final class RiskLevelUtils {
+public class RiskLevelUtils {
 
-    private RiskLevelUtils() {
-    }
-
-    public static String getRiskLevel(int score) {
-        if (score >= 70) {
-            return "HIGH";
-        }
-        if (score >= 40) {
-            return "MEDIUM";
-        }
+    public static String determineRiskLevel(int score) {
+        if (score >= 80) return "CRITICAL";
+        if (score >= 50) return "HIGH";
+        if (score >= 20) return "MEDIUM";
         return "LOW";
     }
 }
