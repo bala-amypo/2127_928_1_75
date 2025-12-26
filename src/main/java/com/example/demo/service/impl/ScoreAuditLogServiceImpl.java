@@ -17,18 +17,13 @@ public class ScoreAuditLogServiceImpl implements ScoreAuditLogService {
     }
 
     @Override
-    public ScoreAuditLog logScoreChange(Long userId, Long scoreId, ScoreAuditLog log) {
+    public ScoreAuditLog save(ScoreAuditLog log) {
         return repo.save(log);
     }
 
     @Override
-    public ScoreAuditLog getLog(Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Log not found"));
-    }
-
-    @Override
     public List<ScoreAuditLog> getLogsByVisitor(Long userId) {
-        return repo.findByUserId(userId);
+        // ✅ FIX IS HERE
+        return repo.findByUser_Id(userId);
     }
 }

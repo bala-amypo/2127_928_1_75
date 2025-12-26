@@ -17,18 +17,13 @@ public class VisitLogServiceImpl implements VisitLogService {
     }
 
     @Override
-    public VisitLog createVisitLog(Long userId, VisitLog log) {
+    public VisitLog save(VisitLog log) {
         return repo.save(log);
     }
 
     @Override
-    public VisitLog getLog(Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Visit log not found"));
-    }
-
-    @Override
     public List<VisitLog> getLogsByVisitor(Long userId) {
-        return repo.findByUserId(userId);
+        // ✅ FIX IS HERE
+        return repo.findByUser_Id(userId);
     }
 }
