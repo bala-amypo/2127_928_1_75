@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface VisitLogRepository extends JpaRepository<VisitLog, Long> {
 
-    List<VisitLog> findByUserId(Long userId);
+    List<VisitLog> findByUser_Id(Long userId);
 }
