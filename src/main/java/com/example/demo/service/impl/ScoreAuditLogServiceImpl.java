@@ -1,41 +1,43 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.ScoreAuditLog;
+import com.example.demo.model.Visitor;
 import com.example.demo.repository.ScoreAuditLogRepository;
+import com.example.demo.repository.VisitorRepository;
 import com.example.demo.service.ScoreAuditLogService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class ScoreAuditLogServiceImpl implements ScoreAuditLogService {
 
-    private final ScoreAuditLogRepository repository;
+    private final ScoreAuditLogRepository auditLogRepository;
+    private final VisitorRepository visitorRepository;
 
-    public ScoreAuditLogServiceImpl(ScoreAuditLogRepository repository) {
-        this.repository = repository;
+    public ScoreAuditLogServiceImpl(ScoreAuditLogRepository auditLogRepository,
+                                    VisitorRepository visitorRepository) {
+        this.auditLogRepository = auditLogRepository;
+        this.visitorRepository = visitorRepository;
     }
 
     @Override
-    public ScoreAuditLog logScoreChange(long visitorId, Long scoreId, Object reason) {
+    public ScoreAuditLog logScoreChange(Long visitorId, Long ruleId, ScoreAuditLog log) {
+        Visitor visitor = visitorRepository.findById(visitorId)
+                .orElseThrow(() -> new RuntimeException("Visitor not found"));
 
-        ScoreAuditLog log = new ScoreAuditLog();
-        log.setVisitorId(visitorId);
-        log.setScoreId(scoreId);
-        log.setReason(reason == null ? null : reason.toString());
-        log.setCreatedAt(LocalDateTime.now());
-
-        return repository.save(log);
+        log.setVisitor(visitor);
+        return auditLogRepository.save(log);
     }
 
     @Override
-    public ScoreAuditLog getLog(long id) {
-        return repository.findById(id).orElse(null);
+    public ScoreAuditLog getLog(Long id) {
+        return auditLogRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Audit log not found"));
     }
 
     @Override
-    public List<ScoreAuditLog> getLogsByVisitor(long visitorId) {
-        return repository.findByVisitorId(visitorId);
+    public List<ScoreAuditLog> getLogsByVisitor(Long visitorId) {
+        return auditLogRepository.findByVisitor_Id(visitorId);
     }
 }
