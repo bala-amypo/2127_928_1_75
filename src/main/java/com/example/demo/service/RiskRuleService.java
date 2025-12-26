@@ -1,11 +1,13 @@
 package com.example.demo.service;
 
-import com.example.demo.model.RiskRule;
-import java.util.List;
-
+/**
+ * Service interface for managing risk rules.
+ */
 public interface RiskRuleService {
 
-    RiskRule createRule(RiskRule rule);
-    RiskRule getRule(Long id);
-    List<RiskRule> getAllRules();
+    String getRiskLevel(String key);
+
+    void setRiskLevel(String key, String level);
+
+    void deleteRiskRule(String key);
 }
