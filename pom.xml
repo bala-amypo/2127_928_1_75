@@ -106,6 +106,13 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.1.1</version>
+        </dependency>
+
+
         <!-- Spring Boot Test (WITHOUT JUnit) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
