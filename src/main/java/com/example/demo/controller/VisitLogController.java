@@ -1,29 +1,36 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.VisitLog;
+import com.example.demo.service.VisitLogService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/visit-logs")
 public class VisitLogController {
 
+    private final VisitLogService visitLogService;
+
+    public VisitLogController(VisitLogService visitLogService) {
+        this.visitLogService = visitLogService;
+    }
+
     @PostMapping("/{visitorId}")
-    public VisitLog create(@PathVariable long visitorId,
-                           @RequestBody VisitLog log) {
-        log.setVisitorId(visitorId);
-        return log;
+    public ResponseEntity<VisitLog> create(
+            @PathVariable Long visitorId,
+            @RequestBody VisitLog log) {
+        return ResponseEntity.ok(visitLogService.createVisitLog(visitorId, log));
     }
 
     @GetMapping("/{id}")
-    public VisitLog get(@PathVariable long id) {
-        return VisitLog.builder().id(id).purpose("TEST").build();
+    public ResponseEntity<VisitLog> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(visitLogService.getLog(id));
     }
 
     @GetMapping("/visitor/{visitorId}")
-    public List<VisitLog> listByVisitor(@PathVariable long visitorId) {
-        return new ArrayList<>();
+    public ResponseEntity<List<VisitLog>> getByVisitor(@PathVariable Long visitorId) {
+        return ResponseEntity.ok(visitLogService.getLogsByVisitor(visitorId));
     }
 }

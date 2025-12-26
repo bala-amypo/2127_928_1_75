@@ -2,10 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.model.RiskScore;
 import com.example.demo.service.RiskScoreService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/risk-score")
+@RequestMapping("/risk-scores")
 public class RiskScoreController {
 
     private final RiskScoreService riskScoreService;
@@ -14,8 +17,18 @@ public class RiskScoreController {
         this.riskScoreService = riskScoreService;
     }
 
-    @GetMapping("/{visitorId}")
-    public RiskScore evaluate(@PathVariable long visitorId) {
-        return riskScoreService.evaluateVisitor(visitorId);
+    @PostMapping("/evaluate/{visitorId}")
+    public ResponseEntity<RiskScore> evaluate(@PathVariable Long visitorId) {
+        return ResponseEntity.ok(riskScoreService.evaluateVisitor(visitorId));
+    }
+
+    @GetMapping("/visitor/{visitorId}")
+    public ResponseEntity<RiskScore> getByVisitor(@PathVariable Long visitorId) {
+        return ResponseEntity.ok(riskScoreService.getScoreForVisitor(visitorId));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<RiskScore>> getAll() {
+        return ResponseEntity.ok(riskScoreService.getAllScores());
     }
 }
