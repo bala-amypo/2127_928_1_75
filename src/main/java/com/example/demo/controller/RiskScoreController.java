@@ -2,14 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.model.RiskScoreModel;
 import com.example.demo.service.RiskScoreService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/risk-scores")
-@Tag(name = "RiskScore")
 public class RiskScoreController {
 
     private final RiskScoreService service;

@@ -4,6 +4,7 @@ import com.example.demo.model.VisitLog;
 import com.example.demo.repository.VisitLogRepository;
 import com.example.demo.service.VisitLogService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -16,12 +17,18 @@ public class VisitLogServiceImpl implements VisitLogService {
     }
 
     @Override
-    public VisitLog save(VisitLog log) {
+    public VisitLog createVisitLog(Long userId, VisitLog log) {
         return repo.save(log);
     }
 
     @Override
-    public List<VisitLog> findAll() {
-        return repo.findAll();
+    public VisitLog getLog(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Visit log not found"));
+    }
+
+    @Override
+    public List<VisitLog> getLogsByVisitor(Long userId) {
+        return repo.findByUserId(userId);
     }
 }

@@ -4,6 +4,7 @@ import com.example.demo.model.ScoreAuditLog;
 import com.example.demo.repository.ScoreAuditLogRepository;
 import com.example.demo.service.ScoreAuditLogService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -16,12 +17,18 @@ public class ScoreAuditLogServiceImpl implements ScoreAuditLogService {
     }
 
     @Override
-    public ScoreAuditLog save(ScoreAuditLog log) {
+    public ScoreAuditLog logScoreChange(Long userId, Long scoreId, ScoreAuditLog log) {
         return repo.save(log);
     }
 
     @Override
-    public List<ScoreAuditLog> findAll() {
-        return repo.findAll();
+    public ScoreAuditLog getLog(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Log not found"));
+    }
+
+    @Override
+    public List<ScoreAuditLog> getLogsByVisitor(Long userId) {
+        return repo.findByUserId(userId);
     }
 }

@@ -5,6 +5,8 @@ import com.example.demo.repository.RiskScoreRepository;
 import com.example.demo.service.RiskScoreService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RiskScoreServiceImpl implements RiskScoreService {
 
@@ -15,13 +17,18 @@ public class RiskScoreServiceImpl implements RiskScoreService {
     }
 
     @Override
-    public RiskScoreModel save(RiskScoreModel score) {
+    public RiskScoreModel createScore(RiskScoreModel score) {
         return repo.save(score);
     }
 
     @Override
-    public RiskScoreModel get(Long id) {
+    public RiskScoreModel getScore(Long id) {
         return repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Risk score not found"));
+    }
+
+    @Override
+    public List<RiskScoreModel> getAllScores() {
+        return repo.findAll();
     }
 }
