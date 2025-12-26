@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ScoreAuditLogRepository extends JpaRepository<ScoreAuditLog, Long> {
 
-    List<ScoreAuditLog> findByVisitorId(Long visitorId);
+    List<ScoreAuditLog> findByVisitor_Id(Long visitorId);
 }
