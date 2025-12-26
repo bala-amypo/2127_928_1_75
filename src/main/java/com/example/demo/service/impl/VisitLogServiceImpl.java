@@ -6,7 +6,6 @@ import com.example.demo.service.VisitLogService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class VisitLogServiceImpl implements VisitLogService {
@@ -18,13 +17,9 @@ public class VisitLogServiceImpl implements VisitLogService {
     }
 
     @Override
-    public VisitLog create(VisitLog log) {
+    public VisitLog createVisitLog(Long visitorId, VisitLog log) {
+        log.setVisitorId(visitorId);
         log.setVisitedAt(LocalDateTime.now());
         return repo.save(log);
-    }
-
-    @Override
-    public List<VisitLog> getByUser(Long userId) {
-        return repo.findByUser_Id(userId);
     }
 }
