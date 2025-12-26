@@ -1,20 +1,26 @@
 package com.example.demo.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.*;
-
-@Data
-@No_ARGS_CONSTRUCTOR
-@All_ARGS_CONSTRUCTOR
-@Builder
-
-import lombok.NoArgsConstructor;
-
-
-@NoArgsConstructor
-@AllArgsConstructor
 public class AuthRequest {
+
     private String email;
     private String password;
+
+    public AuthRequest() {
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
