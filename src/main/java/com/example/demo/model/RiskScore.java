@@ -4,16 +4,17 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter @Builder
+@NoArgsConstructor @AllArgsConstructor
 public class RiskScore {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String level;
+    private Integer totalScore;
+    private String riskLevel;
 
-    private int score;
+    @OneToOne
+    private Visitor visitor;
 }

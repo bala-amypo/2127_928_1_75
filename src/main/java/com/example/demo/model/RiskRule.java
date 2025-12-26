@@ -4,17 +4,18 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter @Builder
+@NoArgsConstructor @AllArgsConstructor
 public class RiskRule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String ruleType;
+    @Column(unique = true)
+    private String ruleName;
 
-    private int threshold;
+    private String ruleType;
+    private Integer scoreImpact;
+    private Integer threshold;
 }
