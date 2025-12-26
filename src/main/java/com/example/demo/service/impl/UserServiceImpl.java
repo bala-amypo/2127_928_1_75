@@ -1,34 +1,23 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dto.AuthRequest;
-import com.example.demo.dto.AuthResponse;
+import com.example.demo.dto.RegisterRequest;
 import com.example.demo.model.User;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
-
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
     @Override
-    public AuthResponse login(AuthRequest request) {
+    public User register(RegisterRequest request) {
+        // In real project, you would save user to DB
+        // Here we just create a new user and return
 
-        User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("Invalid username"));
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setPassword(request.getPassword()); // In real app, encode password with BCrypt
 
-        if (!user.getPassword().equals(request.getPassword())) {
-            throw new RuntimeException("Invalid password");
-        }
-
-        // Dummy token for now (JWT later)
-        String token = "TOKEN_" + user.getUsername();
-
-        return new AuthResponse(token, user.getUsername());
+        // Return the created user
+        return user;
     }
 }
