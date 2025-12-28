@@ -1,10 +1,13 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.*;
-import com.example.demo.repository.*;
-import com.example.demo.service.*;
-import org.springframework.stereotype.*;
-import java.util.*;
+import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.RiskRule;
+import com.example.demo.repository.RiskRuleRepository;
+import com.example.demo.service.RiskRuleService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class RiskRuleServiceImpl implements RiskRuleService {
@@ -17,6 +20,9 @@ public class RiskRuleServiceImpl implements RiskRuleService {
 
     @Override
     public RiskRule createRule(RiskRule rule) {
+        if (riskRuleRepository.findByRuleName(rule.getRuleName()).isPresent()) {
+            throw new BadRequestException("Rule name must be unique");
+        }
         return riskRuleRepository.save(rule);
     }
 
@@ -28,6 +34,6 @@ public class RiskRuleServiceImpl implements RiskRuleService {
     @Override
     public RiskRule getRule(Long id) {
         return riskRuleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("RiskRule not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Risk rule not found"));
     }
 }
