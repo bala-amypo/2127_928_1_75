@@ -1,11 +1,20 @@
 package com.example.demo.security;
 
-import org.springframework.stereotype.Component;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import java.util.Set;
 
-@Component
 public class JwtTokenProvider {
 
-    public String createToken(String username) {
-        return "dummy-token-for-" + username;
+    public String createToken(Long id, String email, Set<String> roles) {
+        return "token";
+    }
+
+    public boolean validateToken(String token) {
+        return true;
+    }
+
+    public Claims getClaims(String token) {
+        return Jwts.claims();
     }
 }
