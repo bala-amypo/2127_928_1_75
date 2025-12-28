@@ -22,13 +22,13 @@ public class RiskScoreController {
         return ResponseEntity.ok(riskScoreService.evaluateVisitor(visitorId));
     }
 
-    @GetMapping("/visitor/{visitorId}")
-    public ResponseEntity<RiskScore> getByVisitor(@PathVariable Long visitorId) {
+    @GetMapping("/{visitorId}")
+    public ResponseEntity<RiskScore> getScore(@PathVariable Long visitorId) {
         return ResponseEntity.ok(riskScoreService.getScoreForVisitor(visitorId));
     }
 
     @GetMapping
-    public ResponseEntity<List<RiskScore>> getAll() {
+    public ResponseEntity<List<RiskScore>> getAllScores() {
         return ResponseEntity.ok(riskScoreService.getAllScores());
     }
 }

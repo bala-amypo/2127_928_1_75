@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/audit-logs")
+@RequestMapping("/score-audit-logs")
 public class ScoreAuditLogController {
 
     private final ScoreAuditLogService auditLogService;
@@ -18,7 +18,7 @@ public class ScoreAuditLogController {
     }
 
     @PostMapping("/{visitorId}/{ruleId}")
-    public ResponseEntity<ScoreAuditLog> log(
+    public ResponseEntity<ScoreAuditLog> logScoreChange(
             @PathVariable Long visitorId,
             @PathVariable Long ruleId,
             @RequestBody ScoreAuditLog log) {
@@ -28,12 +28,12 @@ public class ScoreAuditLogController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ScoreAuditLog> getById(@PathVariable Long id) {
+    public ResponseEntity<ScoreAuditLog> getLog(@PathVariable Long id) {
         return ResponseEntity.ok(auditLogService.getLog(id));
     }
 
     @GetMapping("/visitor/{visitorId}")
-    public ResponseEntity<List<ScoreAuditLog>> getByVisitor(@PathVariable Long visitorId) {
+    public ResponseEntity<List<ScoreAuditLog>> getLogs(@PathVariable Long visitorId) {
         return ResponseEntity.ok(auditLogService.getLogsByVisitor(visitorId));
     }
 }
