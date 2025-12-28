@@ -23,14 +23,10 @@ public class ScoreAuditLogServiceImpl implements ScoreAuditLogService {
 
     @Override
     public ScoreAuditLog logScoreChange(Long visitorId, Long riskScoreId, ScoreAuditLog log) {
-        // Fetch visitor entity
         Visitor visitor = visitorRepository.findById(visitorId)
                 .orElseThrow(() -> new RuntimeException("Visitor not found"));
         log.setVisitor(visitor);
-
-        // Set riskScoreId
         log.setRiskScoreId(riskScoreId);
-
         return auditLogRepository.save(log);
     }
 

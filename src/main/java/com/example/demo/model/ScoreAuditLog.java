@@ -1,24 +1,32 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
-import lombok.Data;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 
-@Data
 @Entity
-@Table(name = "score_audit_logs")
 public class ScoreAuditLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long riskScoreId;
-
-    private String action;
-
     @ManyToOne
     @JoinColumn(name = "visitor_id")
     private Visitor visitor;
 
-    // Add other fields as per your test cases
+    private Long riskScoreId;
+
+    // Getters and setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public Visitor getVisitor() { return visitor; }
+    public void setVisitor(Visitor visitor) { this.visitor = visitor; }
+
+    public Long getRiskScoreId() { return riskScoreId; }
+    public void setRiskScoreId(Long riskScoreId) { this.riskScoreId = riskScoreId; }
 }
