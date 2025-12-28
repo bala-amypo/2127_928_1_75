@@ -2,7 +2,6 @@ package com.example.demo.service.impl;
 
 import com.example.demo.service.RiskRuleService;
 import org.springframework.stereotype.Service;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -15,7 +14,7 @@ public class RiskRuleServiceImpl implements RiskRuleService {
     }
 
     @Override
-    public List<Object> getAllRules() {
+    public List<String> getAllRules() {
         return Collections.emptyList();
     }
 }
