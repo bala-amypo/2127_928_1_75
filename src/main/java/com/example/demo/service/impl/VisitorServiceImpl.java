@@ -1,14 +1,9 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
-import com.example.demo.exception.BadRequestException;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.Visitor;
-import com.example.demo.repository.VisitorRepository;
-import com.example.demo.service.VisitorService;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-
-import java.util.List;
+import com.example.demo.model.*;
+import com.example.demo.repository.*;
+import org.springframework.stereotype.*;
+import java.util.*;
 
 @Service
 public class VisitorServiceImpl implements VisitorService {
@@ -21,22 +16,12 @@ public class VisitorServiceImpl implements VisitorService {
 
     @Override
     public Visitor createVisitor(Visitor visitor) {
-        if (!StringUtils.hasText(visitor.getPhone())) {
-            throw new BadRequestException("phone required");
-        }
-        if (!StringUtils.hasText(visitor.getFullName())) {
-            throw new BadRequestException("fullName is required");
-        }
-        if (!StringUtils.hasText(visitor.getIdProof())) {
-            throw new BadRequestException("idProof is required");
-        }
         return visitorRepository.save(visitor);
     }
 
     @Override
     public Visitor getVisitor(Long id) {
-        return visitorRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Visitor not found"));
+        return visitorRepository.findById(id).orElse(null);
     }
 
     @Override
