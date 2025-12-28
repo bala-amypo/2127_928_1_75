@@ -16,7 +16,6 @@ public class RiskRuleController {
 
     @GetMapping("/{visitorId}")
     public ResponseEntity<String> getRiskLevel(@PathVariable Long visitorId) {
-        String level = riskRuleService.calculateRiskLevel(visitorId);
-        return ResponseEntity.ok(level);
+        return ResponseEntity.ok(riskRuleService.calculateRiskLevel(visitorId));
     }
 }

@@ -11,11 +11,11 @@ public class RiskRuleServiceImpl implements RiskRuleService {
 
     @Override
     public String calculateRiskLevel(Long visitorId) {
-        return "LOW"; // stub value
+        return "LOW";
     }
 
     @Override
     public List<Object> getAllRules() {
-        return Collections.emptyList(); // stub value
+        return Collections.emptyList();
     }
 }

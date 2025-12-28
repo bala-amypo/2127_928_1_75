@@ -1,7 +1,7 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.ScoreAuditLog;
+import com.example.demo.entity.ScoreAuditLog;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ScoreAuditLogRepository {
-    ScoreAuditLog save(ScoreAuditLog log);
+public interface ScoreAuditLogRepository extends JpaRepository<ScoreAuditLog, Long> {
 }

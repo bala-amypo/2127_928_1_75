@@ -13,15 +13,11 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
-        Server localServer = new Server()
-                .url("http://localhost:9001")
-                .description("Local Server");
-
         return new OpenAPI()
                 .info(new Info()
                         .title("Visitor Risk Scoring API")
                         .version("1.0")
                         .description("Swagger documentation for Visitor Risk Scoring project"))
-                .servers(List.of(localServer));
+                .servers(List.of(new Server().url("http://localhost:9001").description("Local Server")));
     }
 }

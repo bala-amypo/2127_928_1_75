@@ -1,8 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Visitor;
-import com.example.demo.service.VisitorService;
-import org.springframework.http.ResponseEntity;
+import com.example.demo.entity.Visitor;
+import com.example.demo.repository.VisitorRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,24 +10,19 @@ import java.util.List;
 @RequestMapping("/visitors")
 public class VisitorController {
 
-    private final VisitorService visitorService;
+    private final VisitorRepository visitorRepository;
 
-    public VisitorController(VisitorService visitorService) {
-        this.visitorService = visitorService;
-    }
-
-    @PostMapping
-    public ResponseEntity<Visitor> createVisitor(@RequestBody Visitor visitor) {
-        return ResponseEntity.ok(visitorService.createVisitor(visitor));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Visitor> getVisitor(@PathVariable Long id) {
-        return ResponseEntity.ok(visitorService.getVisitor(id));
+    public VisitorController(VisitorRepository visitorRepository) {
+        this.visitorRepository = visitorRepository;
     }
 
     @GetMapping
-    public ResponseEntity<List<Visitor>> getAllVisitors() {
-        return ResponseEntity.ok(visitorService.getAllVisitors());
+    public List<Visitor> getAllVisitors() {
+        return visitorRepository.findAll();
+    }
+
+    @PostMapping
+    public Visitor addVisitor(@RequestBody Visitor visitor) {
+        return visitorRepository.save(visitor);
     }
 }

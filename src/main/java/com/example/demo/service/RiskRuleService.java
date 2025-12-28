@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface RiskRuleService {
     String calculateRiskLevel(Long visitorId);
-    List<Object> getAllRules(); // Use Object instead of RiskRule
+    List<Object> getAllRules();
 }
