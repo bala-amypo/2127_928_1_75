@@ -1,35 +1,40 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.ScoreAuditLog;
-import com.example.demo.repository.ScoreAuditLogRepository;
 import com.example.demo.service.ScoreAuditLogService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ScoreAuditLogServiceImpl implements ScoreAuditLogService {
 
-    private final ScoreAuditLogRepository repository;
-
-    public ScoreAuditLogServiceImpl(ScoreAuditLogRepository repository) {
-        this.repository = repository;
-    }
+    private final List<ScoreAuditLog> auditLogs = new ArrayList<>();
 
     @Override
     public void logScoreChange(Long visitorId, Long riskScoreId, ScoreAuditLog log) {
         log.setVisitorId(visitorId);
         log.setRiskScoreId(riskScoreId);
-        repository.save(log);
+        auditLogs.add(log);
     }
 
     @Override
-    public ScoreAuditLog getLog(Long logId) {
-        return repository.findById(logId).orElse(null);
+    public ScoreAuditLog getLog(Long id) {
+        return auditLogs.stream()
+                .filter(log -> log.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
     public List<ScoreAuditLog> getLogsByVisitor(Long visitorId) {
-        return repository.findByVisitorId(visitorId);
+        List<ScoreAuditLog> result = new ArrayList<>();
+        for (ScoreAuditLog log : auditLogs) {
+            if (log.getVisitorId().equals(visitorId)) {
+                result.add(log);
+            }
+        }
+        return result;
     }
 }
