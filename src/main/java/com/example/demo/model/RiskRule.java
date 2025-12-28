@@ -1,21 +1,16 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
-@Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Entity
+@Table(name = "risk_rules")
 public class RiskRule {
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String ruleName;
-    private String ruleType;
-    private Integer scoreImpact;
-    private Integer threshold;
+    private String description;
 }
