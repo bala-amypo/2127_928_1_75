@@ -18,17 +18,17 @@ public class VisitorController {
     }
 
     @PostMapping
-    public ResponseEntity<Visitor> create(@RequestBody Visitor visitor) {
+    public ResponseEntity<Visitor> createVisitor(@RequestBody Visitor visitor) {
         return ResponseEntity.ok(visitorService.createVisitor(visitor));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Visitor> getById(@PathVariable Long id) {
+    public ResponseEntity<Visitor> getVisitor(@PathVariable Long id) {
         return ResponseEntity.ok(visitorService.getVisitor(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<Visitor>> getAll() {
+    public ResponseEntity<List<Visitor>> getAllVisitors() {
         return ResponseEntity.ok(visitorService.getAllVisitors());
     }
 }
