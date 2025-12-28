@@ -1,43 +1,29 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dto.*;
-import com.example.demo.model.User;
+import com.example.demo.dto.RegisterRequest;
+import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.UserService;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository,
-                           PasswordEncoder passwordEncoder,
-                           JwtTokenProvider jwtTokenProvider) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtTokenProvider = jwtTokenProvider;
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     @Override
     public User register(RegisterRequest request) {
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already exists");
-        }
-
-        User user = User.builder()
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .roles(request.getRoles())
-                .build();
-
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(request.getRole() != null ? request.getRole() : "ROLE_USER");
         return userRepository.save(user);
-    }
-
-    @Override
-    public AuthResponse login(AuthRequest request) {
-        return new AuthResponse("token");
     }
 }
