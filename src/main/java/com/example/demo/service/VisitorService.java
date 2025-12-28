@@ -4,6 +4,6 @@ import com.example.demo.model.Visitor;
 import java.util.List;
 
 public interface VisitorService {
-    Visitor saveVisitor(Visitor visitor);
+    Visitor getVisitorById(Long id);
     List<Visitor> getAllVisitors();
 }
