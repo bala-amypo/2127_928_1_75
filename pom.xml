@@ -10,17 +10,17 @@
     <name>Visitor Risk Scoring</name>
     <description>Backend for Visitor Risk Scoring Project</description>
 
-    <properties>
-        <java.version>17</java.version>
-        <spring.boot.version>3.3.1</spring.boot.version>
-    </properties>
-
+    <!-- Parent POM for Spring Boot -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>${spring.boot.version}</version>
-        <relativePath/>
+        <version>3.3.1</version> <!-- fixed version -->
+        <relativePath/> <!-- lookup parent from Maven repository -->
     </parent>
+
+    <properties>
+        <java.version>17</java.version>
+    </properties>
 
     <dependencies>
         <!-- Spring Boot Starter Web -->
@@ -35,7 +35,7 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!-- H2 Database (for dev/testing) -->
+        <!-- H2 Database for testing -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -80,7 +80,7 @@
             <version>2.2.0</version>
         </dependency>
 
-        <!-- Lombok for boilerplate code (optional but recommended) -->
+        <!-- Lombok (optional but recommended for DTOs/Entities) -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -113,7 +113,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.boot.version}</version>
             </plugin>
         </plugins>
     </build>
