@@ -1,21 +1,14 @@
-package com.example.demo.model;
+package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
 @Entity
+@Table(name = "visitors")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Visitor {
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String fullName;
-    private String phone;
-    private String email;
-    private String idProof;
+    private String name;
 }

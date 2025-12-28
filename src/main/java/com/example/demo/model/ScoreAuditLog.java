@@ -1,19 +1,17 @@
-package com.example.demo.model;
+package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "score_audit_logs")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class ScoreAuditLog {
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Integer scoreChange;
-    private String reason;
+    private Long visitorId;
+    private String riskLevel;
+    private LocalDateTime timestamp = LocalDateTime.now();
 }
