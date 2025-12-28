@@ -4,5 +4,7 @@ import com.example.demo.model.ScoreAuditLog;
 import java.util.List;
 
 public interface ScoreAuditLogService {
-    List<ScoreAuditLog> getAllLogs();
+    void logScoreChange(Long visitorId, Long riskScoreId, ScoreAuditLog log);
+    ScoreAuditLog getLog(Long logId);
+    List<ScoreAuditLog> getLogsByVisitor(Long visitorId);
 }

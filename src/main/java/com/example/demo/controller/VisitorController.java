@@ -20,8 +20,8 @@ public class VisitorController {
         return visitorService.getAllVisitors();
     }
 
-    @GetMapping("/{id}")
-    public Visitor getVisitor(@PathVariable Long id) {
-        return visitorService.getVisitorById(id);
+    @PostMapping
+    public Visitor createVisitor(@RequestBody Visitor visitor) {
+        return visitorService.createVisitor(visitor);
     }
 }
