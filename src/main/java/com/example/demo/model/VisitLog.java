@@ -1,32 +1,23 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 import java.time.LocalDateTime;
 
-@Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Entity
+@Table(name = "visit_logs")
 public class VisitLog {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "visitor_id", nullable = false)
     private Visitor visitor;
 
-    private String purpose;
-    private String location;
-    private LocalDateTime entryTime;
-    private LocalDateTime exitTime;
+    private LocalDateTime visitTime;
 
-    @PrePersist
-    public void onCreate() {
-        if (entryTime == null) {
-            entryTime = LocalDateTime.now();
-        }
-    }
+    // Add other fields if required
 }
