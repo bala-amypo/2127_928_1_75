@@ -4,17 +4,16 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Getter @Setter @Builder
-@NoArgsConstructor @AllArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ScoreAuditLog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     private Integer scoreChange;
     private String reason;
-
-    @ManyToOne
-    private Visitor visitor;
 }
