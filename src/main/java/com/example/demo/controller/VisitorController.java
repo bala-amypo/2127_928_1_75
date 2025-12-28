@@ -1,28 +1,27 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Visitor;
-import com.example.demo.repository.VisitorRepository;
+import com.example.demo.model.Visitor;
+import com.example.demo.service.VisitorService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/visitors")
 public class VisitorController {
 
-    private final VisitorRepository visitorRepository;
+    private final VisitorService visitorService;
 
-    public VisitorController(VisitorRepository visitorRepository) {
-        this.visitorRepository = visitorRepository;
+    public VisitorController(VisitorService visitorService) {
+        this.visitorService = visitorService;
     }
 
     @GetMapping
     public List<Visitor> getAllVisitors() {
-        return visitorRepository.findAll();
+        return visitorService.getAllVisitors();
     }
 
-    @PostMapping
-    public Visitor addVisitor(@RequestBody Visitor visitor) {
-        return visitorRepository.save(visitor);
+    @GetMapping("/{id}")
+    public Visitor getVisitor(@PathVariable Long id) {
+        return visitorService.getVisitorById(id);
     }
 }
