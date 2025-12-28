@@ -1,23 +1,23 @@
-package com.example.demo.model;
+package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class User {
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String email;
+    @Column(nullable = false, unique = true)
+    private String username;
+    @Column(nullable = false)
     private String password;
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    private Set<String> roles;
+    @Column(nullable = false)
+    private String role;
 }
